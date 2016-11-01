@@ -1,0 +1,17 @@
+server:
+    port: 8080
+    tomcat:
+        access-log-enabled: true
+        access-log-pattern: "%h %l %u %t \"%r\" %s %b %D"
+
+spring:
+    jackson:
+        serialization:
+            write_dates_as_timestamps: false
+            write_dates_with_zone_id: true
+---
+spring:
+    profiles: dev
+    h2:
+        console:
+          enabled: true
