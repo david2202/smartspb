@@ -5,24 +5,49 @@ import org.joda.time.DateTimeZone;
 
 public class Reading {
     private Integer id;
-    private StreetPostingBox spb;
+    private StreetPostingBox streetPostingBox;
     private DateTime dateTime;
     private Integer grams;
     private Temperature degreesC;
+    private Boolean latest;
 
-    public Reading(Integer id, StreetPostingBox spb, DateTime dateTime, Integer grams, Temperature degreesC) {
+    public Reading(Integer id, StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Temperature degreesC) {
         this.id = id;
-        this.spb = spb;
+        this.streetPostingBox = streetPostingBox;
         this.dateTime = dateTime;
         this.grams = grams;
         this.degreesC = degreesC;
+        this.latest = false;
     }
 
-    public Reading(StreetPostingBox spb, Integer grams, Temperature degreesC) {
-        this.spb = spb;
+    public Reading(Integer id, StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Temperature degreesC, Boolean latest) {
+        this.id = id;
+        this.streetPostingBox = streetPostingBox;
+        this.dateTime = dateTime;
+        this.grams = grams;
+        this.degreesC = degreesC;
+        this.latest = latest;
+    }
+
+    public Reading(StreetPostingBox streetPostingBox, Integer grams, Temperature degreesC) {
+        this.streetPostingBox = streetPostingBox;
         this.dateTime = new DateTime();
         this.grams = grams;
         this.degreesC = degreesC;
+        this.latest = false;
+    }
+
+    public Reading(StreetPostingBox streetPostingBox, Integer grams, Temperature degreesC, Boolean latest) {
+        this.streetPostingBox = streetPostingBox;
+        this.dateTime = new DateTime();
+        this.grams = grams;
+        this.degreesC = degreesC;
+        this.latest = latest;
+    }
+
+    public Reading makeLatest() {
+        this.latest = true;
+        return this;
     }
 
     public Integer getId() {
@@ -34,7 +59,7 @@ public class Reading {
     }
 
     public StreetPostingBox getStreetPostingBox() {
-        return spb;
+        return streetPostingBox;
     }
 
     public DateTime getDateTime() {
@@ -42,7 +67,7 @@ public class Reading {
     }
 
     public DateTime getLocalDateTime() {
-        return dateTime.withZone(DateTimeZone.forID(spb.getTimezone().getID()));
+        return dateTime.withZone(DateTimeZone.forID(streetPostingBox.getTimezone().getID()));
     }
 
     public Integer getGrams() {
@@ -51,5 +76,9 @@ public class Reading {
 
     public Temperature getDegreesC() {
         return degreesC;
+    }
+
+    public Boolean isLatest() {
+        return latest;
     }
 }

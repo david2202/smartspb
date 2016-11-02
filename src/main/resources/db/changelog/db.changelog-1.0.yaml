@@ -12,33 +12,29 @@ databaseChangeLog:
                 type: int
                 autoIncrement: true
                 constraints:
-                    primaryKey: true
-                    nullable: false
+                  primaryKey: true
+                  nullable: false
             - column:
                 name: imei
                 type: varchar(15)
                 constraints:
-                    nullable: false
+                  nullable: false
             - column:
                 name: timezone
                 type: varchar(30)
                 constraints:
-                    nullable: false
+                  nullable: false
             - column:
                 name: api_key
                 type: varchar(36)
-                constraints:
-                    nullable: true
             - column:
                 name: prev_api_key
                 type: varchar(36)
-                constraints:
-                    nullable: true
             - column:
                 name: version
                 type: int
                 constraints:
-                    nullable: false
+                  nullable: false
         - createIndex:
               columns:
               - column:
@@ -50,27 +46,28 @@ databaseChangeLog:
     - changeSet:
         id: 1.0-1-dev
         author: howed
+        context: "!(pdev OR ptest OR sdev OR stest OR prod)"
         comment: Insert SPB data for local development
-        context: dev
         changes:
-            - insert:
-                tableName: street_posting_box
-                columns:
-                - column:
-                    name: imei
-                    value: IMEI12345678902
-                - column:
-                    name: timezone
-                    value: Australia/Perth
-                - column:
-                    name: api_key
-                    value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
-                - column:
-                    name: prev_api_key
-                    value: a73c5740-1cde-40a9-bde7-1d5e44761f77
-                - column:
-                    name: version
-                    value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: IMEI12345678902
+            - column:
+                name: timezone
+                value: Australia/Perth
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: version
+                value: 1
+
     - changeSet:
         id: 1.0-2
         author: howed
@@ -84,35 +81,48 @@ databaseChangeLog:
                 type: int
                 autoIncrement: true
                 constraints:
-                    primaryKey: true
-                    nullable: false
+                  primaryKey: true
+                  nullable: false
             - column:
                 name: street_posting_box_id
                 type: int
                 constraints:
-                    nullable: false
-                    foreignKeyName: fk_reading_spb
-                    references: street_posting_box(id)
+                  nullable: false
+                  foreignKeyName: fk_reading_spb
+                  references: street_posting_box(id)
             - column:
                 name: date_time
                 type: datetime
                 constraints:
-                    nullable: false
+                  nullable: false
             - column:
                 name: grams
                 type: int
                 constraints:
-                    nullable: false
+                  nullable: false
             - column:
                 name: degreesC
                 type: number(4, 1)
+            - column:
+                name: latestInd
+                type: boolean
+                constraints:
+                  nullable: false
         - createIndex:
-              columns:
-              - column:
-                  name: street_posting_box_id
-              indexName: idx_reading_01
-              tableName: reading
+            columns:
+            - column:
+                name: street_posting_box_id
+            - column:
+                name: latestInd
+            indexName: idx_reading_01
+            tableName: reading
 
+    - changeSet:
+        id: 1.0-2-dev
+        author: howed
+        context: "!(pdev OR ptest OR sdev OR stest OR prod)"
+        comment: Insert reading data for local development
+        changes:
         - insert:
             tableName: reading
             columns:
@@ -128,6 +138,9 @@ databaseChangeLog:
             - column:
                 name: degreesc
                 value: 21.3
+            - column:
+                name: latestInd
+                value: false
         - insert:
             tableName: reading
             columns:
@@ -143,6 +156,9 @@ databaseChangeLog:
             - column:
                 name: degreesc
                 value: 21.4
+            - column:
+                name: latestInd
+                value: true
 
     - changeSet:
         id: 1.0-3
@@ -240,7 +256,7 @@ databaseChangeLog:
         id: 1.0-3-dev
         author: howed
         comment: Insert remote_config data for local development
-        context: dev
+        context: "!(pdev OR ptest OR sdev OR stest OR prod)"
         changes:
         - update:
             tableName: remote_config_prop

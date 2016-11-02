@@ -85,7 +85,7 @@
             <id>dev</id>
             <properties>
                 <spring.profiles>dev</spring.profiles>
-                <liquibase.contexts>${spring.profiles}</liquibase.contexts>
+                <liquibase.contexts>dev</liquibase.contexts>
             </properties>
         </profile>
     </profiles>
