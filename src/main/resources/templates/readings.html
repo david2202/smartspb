@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Readings</title>
+    <script>
+        jQuery(document).ready(function ($) {
+            $("#boxes").bootgrid({
+                navigation: 3,
+                formatters: {
+                        "dateTime": function(column, row) {
+                            return row.dateTime;
+                        }
+                    }
+            });
+
+            $.get("/rest/api/readings?dateTime=2016-11-01 00:00:00", function(data) {
+                $("#boxes").bootgrid("append", data);
+            });
+         });
+    </script>
+</head>
+
+<body>
+    <h1 layout:fragment="header">Readings</h1>
+    <div layout:fragment="content" class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="boxes" class="table table-condensed table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th data-column-id="dateTime" data-formatter="dateTime">Time</th>
+                        <th data-column-id="localDateTime">Local Time</th>
+                        <th data-column-id="grams">Grams</th>
+                        <th data-column-id="degreesC">Temperature</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
