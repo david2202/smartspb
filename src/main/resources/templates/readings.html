@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout">
 <head>
-    <script th:src="@{/scripts/sockjs-0.3.4.js}" src="../static/scripts/sockjs-0.3.4.js'/>"></script>
+    <script th:src="@{/scripts/sockjs-0.3.4.js}" src="../static/scripts/sockjs-0.3.4.js"></script>
     <script th:src="@{/scripts/stomp.js}" src="../static/scripts/stomp.js"></script>
 
     <title>Readings</title>
@@ -51,6 +51,14 @@
             console.log("Disconnected");
         }
     </script>
+    <style>
+        .reading-grams-header {
+            width: 10%;
+        }
+        .reading-degrees-header {
+            width: 10%;
+        }
+    </style>
 </head>
 
 <body>
@@ -61,10 +69,10 @@
                 <table id="boxes" class="table table-condensed table-hover table-striped">
                     <thead>
                     <tr>
-                        <th data-column-id="dateTime" data-formatter="dateTime">Time</th>
-                        <th data-column-id="localDateTime">Local Time</th>
-                        <th data-column-id="grams">Grams</th>
-                        <th data-column-id="degreesC">Temperature</th>
+                        <th data-column-id="dateTime" data-formatter="dateTime" width="40%">Time</th>
+                        <th data-column-id="localDateTime" width="40%">Local Time</th>
+                        <th data-column-id="grams" width="10%" data-type="numeric" data-align="right" data-header-align="right" data-header-css-class="reading-grams-header">Grams</th>
+                        <th data-column-id="degreesC" width="10%" data-type="numeric" data-align="right" data-header-align="right"  data-header-css-class="reading-degrees-header">Temperature</th>
                     </tr>
                     </thead>
                     <tbody>

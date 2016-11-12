@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -24,6 +25,10 @@ import java.util.UUID;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -44,6 +49,10 @@ public class RemoteReadingRestControllerTest {
 
     @MockBean
     private RemoteConfigurationService remoteConfigurationService;
+
+    @MockBean
+    private SimpMessagingTemplate messagingTemplate;
+
 
     @Test
     public void testPost() throws Exception {
@@ -73,6 +82,10 @@ public class RemoteReadingRestControllerTest {
                 .andExpect(jsonPath("$.*", hasSize(2)))
                 .andExpect(jsonPath("$.configVersion", is(remoteConfiguration.getVersion())))
                 .andExpect(jsonPath("$.spbVersion", is(spb.getVersion())));
+        verify(streetPostingBoxService).load(spb.getImei());
+        verify(readingService).save(any());
+        verify(remoteConfigurationService).load();
+        verify(messagingTemplate).convertAndSend(eq("/topic/readingsUpdate"), any(List.class));
     }
 
     @Test
@@ -95,6 +108,10 @@ public class RemoteReadingRestControllerTest {
                 .accept(MediaType.APPLICATION_JSON_UTF8)
         )
                 .andExpect(status().isUnauthorized());
+        verify(streetPostingBoxService).load(spb.getImei());
+        verify(readingService, never()).save(any());
+        verify(remoteConfigurationService, never()).load();
+        verify(messagingTemplate, never()).convertAndSend(any(), any(List.class));
     }
 
     private StreetPostingBox makeStreetPostingBox() {
