@@ -3,8 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout">
 <head>
+    <script th:src="@{/scripts/sockjs-0.3.4.js}" src="../static/scripts/sockjs-0.3.4.js'/>"></script>
+    <script th:src="@{/scripts/stomp.js}" src="../static/scripts/stomp.js"></script>
+
     <title>Readings</title>
-    <script>
+    <script th:inline="javascript">
         jQuery(document).ready(function ($) {
             $("#boxes").bootgrid({
                 navigation: 3,
@@ -18,7 +21,35 @@
             $.get("/rest/api/readings?dateTime=2016-11-01 00:00:00", function(data) {
                 $("#boxes").bootgrid("append", data);
             });
-         });
+
+            connect();
+        });
+
+        var stompClient = null;
+
+        function connect() {
+            /*<![CDATA[*/
+            var socket = new SockJS([[@{/stomp}]]);
+            /*]]>*/
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/readingsUpdate', function(readings) {
+                    $.get("/rest/api/readings?dateTime=2016-11-01 00:00:00", function(data) {
+                        $("#boxes").bootgrid("clear")
+                                   .bootgrid("append", data);
+                    });
+                });
+            });
+        }
+
+        function disconnect() {
+            if (stompClient != null) {
+                stompClient.disconnect();
+            }
+            setConnected(false);
+            console.log("Disconnected");
+        }
     </script>
 </head>
 

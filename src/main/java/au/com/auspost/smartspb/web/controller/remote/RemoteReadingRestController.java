@@ -10,6 +10,8 @@ import au.com.auspost.smartspb.web.exception.UnauthorisedAccessException;
 import au.com.auspost.smartspb.web.value.remote.ConfigVersionVO;
 import au.com.auspost.smartspb.web.value.remote.ReadingVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +28,14 @@ public class RemoteReadingRestController {
     @Autowired
     private ReadingService readingService;
 
+    private SimpMessagingTemplate template;
+
+    @Autowired
+    public RemoteReadingRestController(SimpMessagingTemplate template) {
+        this.template = template;
+        template.setMessageConverter(new MappingJackson2MessageConverter());
+    }
+
     @RequestMapping(value = "/spb/{imei}/reading", method = RequestMethod.POST)
     public ConfigVersionVO create(@RequestBody List<ReadingVO> readingVOs,
                                   @RequestHeader("apiKey") String apiKey,
@@ -40,6 +50,7 @@ public class RemoteReadingRestController {
         }
 
         RemoteConfiguration remoteConfiguration = remoteConfigurationService.load();
+        this.template.convertAndSend("/topic/readingsUpdate", readingVOs);
         return new ConfigVersionVO(spb, remoteConfiguration);
     }
 }
