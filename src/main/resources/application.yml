@@ -15,3 +15,11 @@ spring:
     h2:
         console:
           enabled: true
+---
+spring:
+    profiles: infra
+    datasource:
+      url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}?autoReconnect=true&amp;serverTimezone=UTC
+      username: ${RDS_USERNAME}
+      password: ${RDS_PASSWORD}
+      driver-class-name: com.mysql.jdbc.Driver

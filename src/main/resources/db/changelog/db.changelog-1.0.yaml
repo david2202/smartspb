@@ -54,7 +54,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: IMEI12345678902
+                value: 359769034498003
             - column:
                 name: timezone
                 value: Australia/Perth
