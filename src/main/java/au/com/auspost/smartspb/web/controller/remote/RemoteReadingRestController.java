@@ -12,6 +12,8 @@ import au.com.auspost.smartspb.web.value.remote.ReadingVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/rest/remote")
 public class RemoteReadingRestController {
@@ -25,15 +27,17 @@ public class RemoteReadingRestController {
     private ReadingService readingService;
 
     @RequestMapping(value = "/spb/{imei}/reading", method = RequestMethod.POST)
-    public ConfigVersionVO create(@RequestBody ReadingVO readingVO,
+    public ConfigVersionVO create(@RequestBody List<ReadingVO> readingVOs,
                                   @RequestHeader("apiKey") String apiKey,
                                   @PathVariable("imei") String imei) {
         StreetPostingBox spb = streetPostingBoxService.load(imei);
         if (!spb.checkApiKey(apiKey)) {
             throw new UnauthorisedAccessException();
         }
-        Reading reading = new Reading(spb, readingVO.getGrams(), readingVO.getDegreesC());
-        readingService.save(reading);
+        for (ReadingVO readingVO : readingVOs) {
+            Reading reading = new Reading(spb, readingVO.getGrams(), readingVO.getDegreesC());
+            readingService.save(reading);
+        }
 
         RemoteConfiguration remoteConfiguration = remoteConfigurationService.load();
         return new ConfigVersionVO(spb, remoteConfiguration);

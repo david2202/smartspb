@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -52,13 +54,18 @@ public class RemoteReadingRestControllerTest {
         reading.setGrams(15);
         reading.setDegreesC(Temperature.valueOf("21.5"));
 
+        List<ReadingVO> readings = new ArrayList<>();
+        readings.add(reading);
+
+        System.out.println(new ObjectMapper().writeValueAsString(readings));
+
         when(streetPostingBoxService.load(spb.getImei())).thenReturn(spb);
         when(remoteConfigurationService.load()).thenReturn(remoteConfiguration);
 
         mvc.perform(post("/rest/remote/spb/" + spb.getImei() + "/reading")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .header("apiKey", spb.getApiKey())
-                .content(new ObjectMapper().writeValueAsBytes(reading))
+                .content(new ObjectMapper().writeValueAsBytes(readings))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
         )
                 .andExpect(status().isOk())
@@ -76,12 +83,15 @@ public class RemoteReadingRestControllerTest {
         reading.setGrams(15);
         reading.setDegreesC(Temperature.valueOf("21.5"));
 
+        List<ReadingVO> readings = new ArrayList<>();
+        readings.add(reading);
+
         when(streetPostingBoxService.load(spb.getImei())).thenReturn(spb);
 
         mvc.perform(post("/rest/remote/spb/" + spb.getImei() + "/reading")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .header("apiKey", "somerandomekey")
-                .content(new ObjectMapper().writeValueAsBytes(reading))
+                .content(new ObjectMapper().writeValueAsBytes(readings))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
         )
                 .andExpect(status().isUnauthorized());
