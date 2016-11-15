@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 public class ReadingVO {
     private Integer grams;
 
+    private Integer totalGrams;
+
     private Temperature degreesC;
 
     public Integer getGrams() {
@@ -16,6 +18,14 @@ public class ReadingVO {
 
     public void setGrams(Integer grams) {
         this.grams = grams;
+    }
+
+    public Integer getTotalGrams() {
+        return totalGrams;
+    }
+
+    public void setTotalGrams(Integer totalGrams) {
+        this.totalGrams = totalGrams;
     }
 
     public Temperature getDegreesC() {

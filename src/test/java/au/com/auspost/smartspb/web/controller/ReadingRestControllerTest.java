@@ -57,14 +57,16 @@ public class ReadingRestControllerTest {
                 .andExpect(jsonPath("$.[0].streetPostingBox.href", is("/rest/api/1")))
                 .andExpect(jsonPath("$.[0].dateTime", is("2016/11/01 07:00:00")))
                 .andExpect(jsonPath("$.[0].localDateTime", is("2016/11/01 04:00:00")))
-                .andExpect(jsonPath("$.[0].grams", is(150)))
+                .andExpect(jsonPath("$.[0].grams", is(30)))
+                .andExpect(jsonPath("$.[0].totalGrams", is(150)))
                 .andExpect(jsonPath("$.[0].degreesC", is(22.3)))
                 .andExpect(jsonPath("$.[1].id", is(1)))
                 .andExpect(jsonPath("$.[1].streetPostingBox.href", is("/rest/api/1")))
                 .andExpect(jsonPath("$.[1].dateTime", is("2016/11/01 06:59:00")))
                 .andExpect(jsonPath("$.[1].localDateTime", is("2016/11/01 03:59:00")))
                 .andExpect(jsonPath("$.[1].localTimeZone", is("Australian Western Standard Time")))
-                .andExpect(jsonPath("$.[1].grams", is(120)))
+                .andExpect(jsonPath("$.[1].grams", is(10)))
+                .andExpect(jsonPath("$.[1].totalGrams", is(120)))
                 .andExpect(jsonPath("$.[1].degreesC", is(22.1)));
     }
 
@@ -85,14 +87,16 @@ public class ReadingRestControllerTest {
                 .andExpect(jsonPath("$.[0].streetPostingBox.href", is("/rest/api/1")))
                 .andExpect(jsonPath("$.[0].dateTime", is("2016/11/01 06:00:00")))
                 .andExpect(jsonPath("$.[0].localDateTime", is("2016/11/01 04:00:00")))
-                .andExpect(jsonPath("$.[0].grams", is(150)))
+                .andExpect(jsonPath("$.[0].grams", is(30)))
+                .andExpect(jsonPath("$.[0].totalGrams", is(150)))
                 .andExpect(jsonPath("$.[0].degreesC", is(22.3)))
                 .andExpect(jsonPath("$.[1].id", is(1)))
                 .andExpect(jsonPath("$.[1].streetPostingBox.href", is("/rest/api/1")))
                 .andExpect(jsonPath("$.[1].dateTime", is("2016/11/01 05:59:00")))
                 .andExpect(jsonPath("$.[1].localDateTime", is("2016/11/01 03:59:00")))
                 .andExpect(jsonPath("$.[1].localTimeZone", is("Australian Western Standard Time")))
-                .andExpect(jsonPath("$.[1].grams", is(120)))
+                .andExpect(jsonPath("$.[1].grams", is(10)))
+                .andExpect(jsonPath("$.[1].totalGrams", is(120)))
                 .andExpect(jsonPath("$.[1].degreesC", is(22.1)));
     }
 
@@ -103,8 +107,8 @@ public class ReadingRestControllerTest {
         spb.setId(1);
         spb.setTimezone(TimeZone.getTimeZone("Australia/Perth"));
 
-        readings.add(new Reading(2, spb, new DateTime(2016, 11, 1, 7, 0, 0), 150, Temperature.valueOf("22.3")));
-        readings.add(new Reading(1, spb, new DateTime(2016, 11, 1, 6, 59, 0), 120, Temperature.valueOf("22.1")));
+        readings.add(new Reading(2, spb, new DateTime(2016, 11, 1, 7, 0, 0), 30, 150, Temperature.valueOf("22.3")));
+        readings.add(new Reading(1, spb, new DateTime(2016, 11, 1, 6, 59, 0), 10, 120, Temperature.valueOf("22.1")));
 
         return readings;
     }

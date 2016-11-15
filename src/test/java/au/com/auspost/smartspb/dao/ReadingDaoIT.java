@@ -34,7 +34,7 @@ public class ReadingDaoIT {
 
         StreetPostingBox spb = new StreetPostingBox();
         spb.setId(1);
-        Reading reading = new Reading(spb, 1012, Temperature.valueOf("27.3"));
+        Reading reading = new Reading(spb, 1012, 1200, Temperature.valueOf("27.3"));
         readingDao.save(reading);
 
         assertThat(reading.isLatest(), is(true));
@@ -44,6 +44,7 @@ public class ReadingDaoIT {
 
         assertThat(readings.get(0).getId(), is(3));
         assertThat(readings.get(0).getGrams(), is(1012));
+        assertThat(readings.get(0).getTotalGrams(), is(1200));
         assertThat(readings.get(0).getDegreesC(), is(Temperature.valueOf("27.3")));
         assertThat(readings.get(0).isLatest(), is(true));
 
@@ -62,19 +63,21 @@ public class ReadingDaoIT {
 
         assertThat(readings.get(0).getStreetPostingBox().getReadings(), is(readings));
 
-        assertThat(readings.get(0).getStreetPostingBox().getImei(), is("IMEI12345678902"));
+        assertThat(readings.get(0).getStreetPostingBox().getImei(), is("359769034498003"));
         assertThat(readings.get(0).getStreetPostingBox().getTimezone(), is(TimeZone.getTimeZone("Australia/Perth")));
         assertThat(readings.get(0).getStreetPostingBox().getApiKey(), is("16fa2ee7-6614-4f62-bc16-a3c6fa189675"));
         assertThat(readings.get(0).getStreetPostingBox().getPrevApiKey(), is("a73c5740-1cde-40a9-bde7-1d5e44761f77"));
         assertThat(readings.get(0).getStreetPostingBox().getVersion(), is(1));
 
         assertThat(readings.get(0).getDateTime(), is(new DateTime(2016, 11, 1, 7, 1, 0)));
-        assertThat(readings.get(0).getGrams(), is(161));
+        assertThat(readings.get(0).getGrams(), is(11));
+        assertThat(readings.get(0).getTotalGrams(), is(161));
         assertThat(readings.get(0).getDegreesC(), is(Temperature.valueOf("21.4")));
         assertThat(readings.get(0).isLatest(), is(true));
 
         assertThat(readings.get(1).getDateTime(), is(new DateTime(2016, 11, 1, 7, 0, 0)));
-        assertThat(readings.get(1).getGrams(), is(150));
+        assertThat(readings.get(1).getGrams(), is(10));
+        assertThat(readings.get(1).getTotalGrams(), is(150));
         assertThat(readings.get(1).getDegreesC(), is(Temperature.valueOf("21.3")));
         assertThat(readings.get(1).isLatest(), is(false));
     }

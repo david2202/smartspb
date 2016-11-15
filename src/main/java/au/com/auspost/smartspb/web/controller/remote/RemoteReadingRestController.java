@@ -45,7 +45,7 @@ public class RemoteReadingRestController {
             throw new UnauthorisedAccessException();
         }
         for (ReadingVO readingVO : readingVOs) {
-            Reading reading = new Reading(spb, readingVO.getGrams(), readingVO.getDegreesC());
+            Reading reading = new Reading(spb, readingVO.getGrams(), readingVO.getTotalGrams(), readingVO.getDegreesC());
             readingService.save(reading);
         }
 

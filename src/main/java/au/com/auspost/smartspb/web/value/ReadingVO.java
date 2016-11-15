@@ -21,6 +21,7 @@ public class ReadingVO {
     private String localDateTime;
     private String localTimeZone;
     private Integer grams;
+    private Integer totalGrams;
     private Temperature degreesC;
 
     public ReadingVO(Reading r, String timeZone) {
@@ -34,6 +35,7 @@ public class ReadingVO {
         this.localDateTime = r.getLocalDateTime().toString(DATE_FORMAT);
         this.localTimeZone = r.getStreetPostingBox().getTimezone().getDisplayName();
         this.grams = r.getGrams();
+        this.totalGrams = r.getTotalGrams();
         this.degreesC = r.getDegreesC();
     }
 
@@ -59,6 +61,10 @@ public class ReadingVO {
 
     public Integer getGrams() {
         return grams;
+    }
+
+    public Integer getTotalGrams() {
+        return totalGrams;
     }
 
     public Temperature getDegreesC() {

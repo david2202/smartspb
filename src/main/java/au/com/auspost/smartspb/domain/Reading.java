@@ -8,39 +8,44 @@ public class Reading {
     private StreetPostingBox streetPostingBox;
     private DateTime dateTime;
     private Integer grams;
+    private Integer totalGrams;
     private Temperature degreesC;
     private Boolean latest;
 
-    public Reading(Integer id, StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Temperature degreesC) {
+    public Reading(Integer id, StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Integer totalGrams, Temperature degreesC) {
         this.id = id;
         this.streetPostingBox = streetPostingBox;
         this.dateTime = dateTime;
         this.grams = grams;
+        this.totalGrams = totalGrams;
         this.degreesC = degreesC;
         this.latest = false;
     }
 
-    public Reading(Integer id, StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Temperature degreesC, Boolean latest) {
+    public Reading(Integer id, StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Integer totalGrams, Temperature degreesC, Boolean latest) {
         this.id = id;
         this.streetPostingBox = streetPostingBox;
         this.dateTime = dateTime;
         this.grams = grams;
+        this.totalGrams = totalGrams;
         this.degreesC = degreesC;
         this.latest = latest;
     }
 
-    public Reading(StreetPostingBox streetPostingBox, Integer grams, Temperature degreesC) {
+    public Reading(StreetPostingBox streetPostingBox, Integer grams, Integer totalGrams, Temperature degreesC) {
         this.streetPostingBox = streetPostingBox;
         this.dateTime = new DateTime();
         this.grams = grams;
+        this.totalGrams = totalGrams;
         this.degreesC = degreesC;
         this.latest = false;
     }
 
-    public Reading(StreetPostingBox streetPostingBox, Integer grams, Temperature degreesC, Boolean latest) {
+    public Reading(StreetPostingBox streetPostingBox, Integer grams, Integer totalGrams, Temperature degreesC, Boolean latest) {
         this.streetPostingBox = streetPostingBox;
         this.dateTime = new DateTime();
         this.grams = grams;
+        this.totalGrams = totalGrams;
         this.degreesC = degreesC;
         this.latest = latest;
     }
@@ -72,6 +77,10 @@ public class Reading {
 
     public Integer getGrams() {
         return grams;
+    }
+
+    public Integer getTotalGrams() {
+        return totalGrams;
     }
 
     public Temperature getDegreesC() {

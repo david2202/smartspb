@@ -101,10 +101,15 @@ databaseChangeLog:
                 constraints:
                   nullable: false
             - column:
-                name: degreesC
+                name: total_grams
+                type: int
+                constraints:
+                  nullable: false
+            - column:
+                name: degrees_c
                 type: number(4, 1)
             - column:
-                name: latestInd
+                name: latest_ind
                 type: boolean
                 constraints:
                   nullable: false
@@ -113,7 +118,7 @@ databaseChangeLog:
             - column:
                 name: street_posting_box_id
             - column:
-                name: latestInd
+                name: latest_ind
             indexName: idx_reading_01
             tableName: reading
 
@@ -134,12 +139,15 @@ databaseChangeLog:
                 valueDate: "2016-11-01T07:00:00"
             - column:
                 name: grams
+                value: 10
+            - column:
+                name: total_grams
                 value: 150
             - column:
-                name: degreesc
+                name: degrees_c
                 value: 21.3
             - column:
-                name: latestInd
+                name: latest_ind
                 value: false
         - insert:
             tableName: reading
@@ -152,12 +160,15 @@ databaseChangeLog:
                 valueDate: "2016-11-01T07:01:00"
             - column:
                 name: grams
+                value: 11
+            - column:
+                name: total_grams
                 value: 161
             - column:
-                name: degreesc
+                name: degrees_c
                 value: 21.4
             - column:
-                name: latestInd
+                name: latest_ind
                 value: true
 
     - changeSet:

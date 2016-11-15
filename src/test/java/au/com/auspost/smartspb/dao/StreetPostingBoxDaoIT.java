@@ -20,9 +20,9 @@ public class StreetPostingBoxDaoIT {
 
     @Test
     public void testLoadByImei() {
-        StreetPostingBox spb = streetPostingBoxDao.load("IMEI12345678902");
+        StreetPostingBox spb = streetPostingBoxDao.load("359769034498003");
 
-        assertThat(spb.getImei(), is("IMEI12345678902"));
+        assertThat(spb.getImei(), is("359769034498003"));
         assertThat(spb.getId(), is(1));
         assertThat(spb.getTimezone(), is(TimeZone.getTimeZone("Australia/Perth")));
         assertThat(spb.getApiKey(), is("16fa2ee7-6614-4f62-bc16-a3c6fa189675"));

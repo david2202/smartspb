@@ -27,15 +27,15 @@ import java.util.*;
 public class ReadingDao {
     private static final String SQL_INSERT_READING =
             "INSERT INTO reading " +
-                    "(street_posting_box_id, date_time, grams, degreesC, latestInd) " +
+                    "(street_posting_box_id, date_time, grams, total_grams, degrees_c, latest_ind) " +
                     "VALUES " +
-                    "(:streetPostingBoxId, :dateTime, :grams, :degreesC, :latestInd);";
+                    "(:streetPostingBoxId, :dateTime, :grams, :totalGrams, :degreesC, :latestInd);";
     private static final String SQL_UPDATE_LATEST_READING =
             "UPDATE reading " +
-                    "SET latestInd = :notLatestInd " +
-                    "WHERE street_posting_box_id = :streetPostingBoxId AND latestInd = :latestInd;";
+                    "SET latest_ind = :notLatestInd " +
+                    "WHERE street_posting_box_id = :streetPostingBoxId AND latest_ind = :latestInd;";
     private static final String SQL_LIST =
-            "SELECT r.id,r.street_posting_box_id, r.date_time, r.grams, r.degreesC, r.latestInd, " +
+            "SELECT r.id,r.street_posting_box_id, r.date_time, r.grams, r.total_grams, r.degrees_c, r.latest_ind, " +
                     "spb.imei, spb.timezone, spb.api_key, spb.prev_api_key, spb.version " +
                     "FROM reading r " +
                     "JOIN street_posting_box spb on r.street_posting_box_id = spb.id " +
@@ -59,6 +59,7 @@ public class ReadingDao {
                 .addValue("streetPostingBoxId", reading.getStreetPostingBox().getId())
                 .addValue("dateTime", reading.getDateTime().toDate())
                 .addValue("grams", reading.getGrams())
+                .addValue("totalGrams", reading.getTotalGrams())
                 .addValue("degreesC", reading.getDegreesC().getValue())
                 .addValue("latestInd", reading.isLatest());
 
@@ -91,8 +92,9 @@ public class ReadingDao {
                     spb,
                     new DateTime(resultSet.getTimestamp("date_time"), DateTimeZone.forTimeZone(TimeZone.getDefault())),
                     resultSet.getInt("grams"),
-                    new Temperature(resultSet.getBigDecimal("degreesc")),
-                    resultSet.getBoolean("latestInd"));
+                    resultSet.getInt("total_grams"),
+                    new Temperature(resultSet.getBigDecimal("degrees_c")),
+                    resultSet.getBoolean("latest_ind"));
             spb.addReading(r);
             return r;
         });
