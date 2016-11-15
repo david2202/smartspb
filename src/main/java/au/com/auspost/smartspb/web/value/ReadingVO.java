@@ -9,20 +9,30 @@ import au.com.auspost.smartspb.util.json.TemperatureJsonSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
+import java.util.TimeZone;
 
 public class ReadingVO {
+    private static final String DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";
     private Integer id;
     private Href streetPostingBox;
-    private DateTime dateTime;
-    private DateTime localDateTime;
+    private String dateTime;
+    private String localDateTime;
+    private String localTimeZone;
     private Integer grams;
     private Temperature degreesC;
 
-    public ReadingVO(Reading r) {
+    public ReadingVO(Reading r, String timeZone) {
         this.id = r.getId();
         this.streetPostingBox = new Href("/rest/api/" + r.getStreetPostingBox().getId());
-        this.dateTime = r.getDateTime();
-        this.localDateTime = r.getLocalDateTime();
+        if (timeZone == null) {
+            this.dateTime = r.getDateTime().toString(DATE_FORMAT);
+        } else {
+            this.dateTime = r.getDateTime().toDateTime(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone))).toString(DATE_FORMAT);
+        }
+        this.localDateTime = r.getLocalDateTime().toString(DATE_FORMAT);
+        this.localTimeZone = r.getStreetPostingBox().getTimezone().getDisplayName();
         this.grams = r.getGrams();
         this.degreesC = r.getDegreesC();
     }
@@ -35,12 +45,16 @@ public class ReadingVO {
         return streetPostingBox;
     }
 
-    public DateTime getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
-    public DateTime getLocalDateTime() {
+    public String getLocalDateTime() {
         return localDateTime;
+    }
+
+    public String getLocalTimeZone() {
+        return localTimeZone;
     }
 
     public Integer getGrams() {

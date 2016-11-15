@@ -8,8 +8,9 @@
 
     <title>Readings</title>
     <script th:inline="javascript">
+        /*<![CDATA[*/
         jQuery(document).ready(function ($) {
-            $("#boxes").bootgrid({
+            $("#readings").bootgrid({
                 navigation: 3,
                 formatters: {
                         "dateTime": function(column, row) {
@@ -17,28 +18,19 @@
                         }
                     }
             });
-
-            $.get("/rest/api/readings?dateTime=2016-11-01 00:00:00", function(data) {
-                $("#boxes").bootgrid("append", data);
-            });
-
+            retrieveReadings();
             connect();
         });
 
         var stompClient = null;
 
         function connect() {
-            /*<![CDATA[*/
             var socket = new SockJS([[@{/stomp}]]);
-            /*]]>*/
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/topic/readingsUpdate', function(readings) {
-                    $.get("/rest/api/readings?dateTime=2016-11-01 00:00:00", function(data) {
-                        $("#boxes").bootgrid("clear")
-                                   .bootgrid("append", data);
-                    });
+                    retrieveReadings();
                 });
             });
         }
@@ -50,6 +42,32 @@
             setConnected(false);
             console.log("Disconnected");
         }
+
+        function retrieveReadings() {
+            var today = new Date();
+            var dd = today.getDate() - 1;
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd='0' + dd;
+            }
+
+            if (mm < 10) {
+                mm='0' + mm;
+            }
+            today = yyyy + '-' + mm + '-'+ dd;
+
+            $.get("/rest/api/readings",
+                 { dateTime: today + " 00:00:00",
+                 timeZone: new Date().getTimezoneOffset() * -1 },
+                function(data) {
+                    $("#readings")
+                        .bootgrid("clear")
+                        .bootgrid("append", data);
+                });
+        }
+        /*]]>*/
     </script>
     <style>
         .reading-grams-header {
@@ -66,13 +84,14 @@
     <div layout:fragment="content" class="container">
         <div class="row">
             <div class="col-xs-12">
-                <table id="boxes" class="table table-condensed table-hover table-striped">
+                <table id="readings" class="table table-condensed table-hover table-striped">
                     <thead>
                     <tr>
-                        <th data-column-id="dateTime" data-formatter="dateTime" width="40%">Time</th>
-                        <th data-column-id="localDateTime" width="40%">Local Time</th>
-                        <th data-column-id="grams" width="10%" data-type="numeric" data-align="right" data-header-align="right" data-header-css-class="reading-grams-header">Grams</th>
-                        <th data-column-id="degreesC" width="10%" data-type="numeric" data-align="right" data-header-align="right"  data-header-css-class="reading-degrees-header">Temperature</th>
+                        <th data-column-id="dateTime" data-formatter="dateTime">Time</th>
+                        <th data-column-id="localDateTime">Local Time</th>
+                        <th data-column-id="localTimeZone">Local Time Zone</th>
+                        <th data-column-id="grams" data-type="numeric" data-align="right" data-header-align="right" data-header-css-class="reading-grams-header">Grams</th>
+                        <th data-column-id="degreesC" data-type="numeric" data-align="right" data-header-align="right"  data-header-css-class="reading-degrees-header">Temperature</th>
                     </tr>
                     </thead>
                     <tbody>

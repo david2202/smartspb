@@ -24,10 +24,17 @@ public class ReadingRestController {
 
     @RequestMapping(value = "/readings", method = RequestMethod.GET)
     public List<ReadingVO> list(
-            @RequestParam(name ="dateTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date dateTime) {
+            @RequestParam(name ="dateTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date dateTime,
+            @RequestParam(name = "timeZone", required = false) Integer timeZoneOffsetMinutes) {
+        String timeZoneOffset = null;
+        if (timeZoneOffsetMinutes != null) {
+            Integer timeZoneHours = timeZoneOffsetMinutes / 60;
+            Integer timeZoneMinutes = timeZoneOffsetMinutes % 60;
+            timeZoneOffset = String.format("GMT%+02d:%02d", timeZoneHours, timeZoneMinutes);
+        }
         List<ReadingVO> readings = new ArrayList<>();
         for (Reading r:readingDao.list(new DateTime(dateTime))) {
-            readings.add(new ReadingVO(r));
+            readings.add(new ReadingVO(r, timeZoneOffset));
         }
         return readings;
     }

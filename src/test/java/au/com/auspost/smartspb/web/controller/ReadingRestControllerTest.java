@@ -45,23 +45,53 @@ public class ReadingRestControllerTest {
     public void testGet() throws Exception {
         when(readingDao.list(new DateTime(2016, 10, 31, 0, 0, 0))).thenReturn(makeReadings());
 
-        mvc.perform(get("/rest/api/readings?dateTime=2016-10-31 00:00:00")
+        mvc.perform(get("/rest/api/readings")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
+                .param("dateTime", "2016-10-31 00:00:00")
         )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.*", hasSize(2)))
                 .andExpect(jsonPath("$.[0].id", is(2)))
                 .andExpect(jsonPath("$.[0].streetPostingBox.href", is("/rest/api/1")))
-                .andExpect(jsonPath("$.[0].dateTime", is("2016-11-01T07:00:00.000+11:00[Australia/Melbourne]")))
-                .andExpect(jsonPath("$.[0].localDateTime", is("2016-11-01T04:00:00.000+08:00[Australia/Perth]")))
+                .andExpect(jsonPath("$.[0].dateTime", is("2016/11/01 07:00:00")))
+                .andExpect(jsonPath("$.[0].localDateTime", is("2016/11/01 04:00:00")))
                 .andExpect(jsonPath("$.[0].grams", is(150)))
                 .andExpect(jsonPath("$.[0].degreesC", is(22.3)))
                 .andExpect(jsonPath("$.[1].id", is(1)))
                 .andExpect(jsonPath("$.[1].streetPostingBox.href", is("/rest/api/1")))
-                .andExpect(jsonPath("$.[1].dateTime", is(dateString(new DateTime(2016, 11, 1, 6, 59, 0)))))
-                .andExpect(jsonPath("$.[1].localDateTime", is(localDateString(new DateTime(2016, 11, 1, 6, 59, 0), DateTimeZone.forID("Australia/Perth")))))
+                .andExpect(jsonPath("$.[1].dateTime", is("2016/11/01 06:59:00")))
+                .andExpect(jsonPath("$.[1].localDateTime", is("2016/11/01 03:59:00")))
+                .andExpect(jsonPath("$.[1].localTimeZone", is("Australian Western Standard Time")))
+                .andExpect(jsonPath("$.[1].grams", is(120)))
+                .andExpect(jsonPath("$.[1].degreesC", is(22.1)));
+    }
+
+    @Test
+    public void testGetWithTimeZone() throws Exception {
+        when(readingDao.list(new DateTime(2016, 10, 31, 0, 0, 0))).thenReturn(makeReadings());
+
+        mvc.perform(get("/rest/api/readings")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .param("dateTime", "2016-10-31 00:00:00")
+                .param("timeZone", "600")
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.*", hasSize(2)))
+                .andExpect(jsonPath("$.[0].id", is(2)))
+                .andExpect(jsonPath("$.[0].streetPostingBox.href", is("/rest/api/1")))
+                .andExpect(jsonPath("$.[0].dateTime", is("2016/11/01 06:00:00")))
+                .andExpect(jsonPath("$.[0].localDateTime", is("2016/11/01 04:00:00")))
+                .andExpect(jsonPath("$.[0].grams", is(150)))
+                .andExpect(jsonPath("$.[0].degreesC", is(22.3)))
+                .andExpect(jsonPath("$.[1].id", is(1)))
+                .andExpect(jsonPath("$.[1].streetPostingBox.href", is("/rest/api/1")))
+                .andExpect(jsonPath("$.[1].dateTime", is("2016/11/01 05:59:00")))
+                .andExpect(jsonPath("$.[1].localDateTime", is("2016/11/01 03:59:00")))
+                .andExpect(jsonPath("$.[1].localTimeZone", is("Australian Western Standard Time")))
                 .andExpect(jsonPath("$.[1].grams", is(120)))
                 .andExpect(jsonPath("$.[1].degreesC", is(22.1)));
     }
