@@ -7,15 +7,13 @@ import java.math.BigDecimal;
 
 public class ReadingVO {
     private Integer grams;
-
     private Integer totalGrams;
-
     private Temperature degreesC;
+    private Integer secondsAgo = 0;
 
     public Integer getGrams() {
         return grams;
     }
-
     public void setGrams(Integer grams) {
         this.grams = grams;
     }
@@ -34,5 +32,13 @@ public class ReadingVO {
 
     public void setDegreesC(Temperature degreesC) {
         this.degreesC = degreesC;
+    }
+
+    public Integer getSecondsAgo() {
+        return secondsAgo;
+    }
+
+    public void setSecondsAgo(Integer secondsAgo) {
+        this.secondsAgo = secondsAgo;
     }
 }

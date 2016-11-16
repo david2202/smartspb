@@ -34,7 +34,7 @@ public class ReadingDaoIT {
 
         StreetPostingBox spb = new StreetPostingBox();
         spb.setId(1);
-        Reading reading = new Reading(spb, 1012, 1200, Temperature.valueOf("27.3"));
+        Reading reading = new Reading(spb, new DateTime(), 1012, 1200, Temperature.valueOf("27.3"));
         readingDao.save(reading);
 
         assertThat(reading.isLatest(), is(true));

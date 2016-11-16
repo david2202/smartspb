@@ -32,18 +32,18 @@ public class Reading {
         this.latest = latest;
     }
 
-    public Reading(StreetPostingBox streetPostingBox, Integer grams, Integer totalGrams, Temperature degreesC) {
+    public Reading(StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Integer totalGrams, Temperature degreesC) {
         this.streetPostingBox = streetPostingBox;
-        this.dateTime = new DateTime();
+        this.dateTime = dateTime;
         this.grams = grams;
         this.totalGrams = totalGrams;
         this.degreesC = degreesC;
         this.latest = false;
     }
 
-    public Reading(StreetPostingBox streetPostingBox, Integer grams, Integer totalGrams, Temperature degreesC, Boolean latest) {
+    public Reading(StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Integer totalGrams, Temperature degreesC, Boolean latest) {
         this.streetPostingBox = streetPostingBox;
-        this.dateTime = new DateTime();
+        this.dateTime = dateTime;
         this.grams = grams;
         this.totalGrams = totalGrams;
         this.degreesC = degreesC;

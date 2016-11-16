@@ -9,6 +9,7 @@ import au.com.auspost.smartspb.service.StreetPostingBoxService;
 import au.com.auspost.smartspb.web.exception.UnauthorisedAccessException;
 import au.com.auspost.smartspb.web.value.remote.ConfigVersionVO;
 import au.com.auspost.smartspb.web.value.remote.ReadingVO;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -45,7 +46,8 @@ public class RemoteReadingRestController {
             throw new UnauthorisedAccessException();
         }
         for (ReadingVO readingVO : readingVOs) {
-            Reading reading = new Reading(spb, readingVO.getGrams(), readingVO.getTotalGrams(), readingVO.getDegreesC());
+            DateTime readingDateTime = new DateTime().minusSeconds(readingVO.getSecondsAgo());
+            Reading reading = new Reading(spb, readingDateTime, readingVO.getGrams(), readingVO.getTotalGrams(), readingVO.getDegreesC());
             readingService.save(reading);
         }
 
