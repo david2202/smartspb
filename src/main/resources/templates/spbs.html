@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout">
+      layout:decorator="layout"
+      th:with="currentPage='spbs'">
 <head>
     <script th:src="@{/scripts/sockjs-0.3.4.js}" src="../static/scripts/sockjs-0.3.4.js"></script>
     <script th:src="@{/scripts/stomp.js}" src="../static/scripts/stomp.js"></script>
@@ -23,6 +24,7 @@
                     }
             });
             connect();
+            console.log($("#map").width());
         });
 
         var stompClient = null;
@@ -94,6 +96,7 @@
     <style>
         #map {
             height: 600px;
+            width: 360px;
         }
     </style>
 </head>
@@ -102,10 +105,10 @@
 <h1 layout:fragment="header">Street Posting Boxes</h1>
 <div layout:fragment="content">
     <div class="row">
-        <div id="map" class="col-xs-2">
+        <div id="map" class="col-md-4">
             <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARB7odEMxJYFxgOx5-eBjmx0iF6CZ8zdk&amp;callback=retrieveSPBs"></script>
         </div>
-        <div id="list" class="col-xs-10">
+        <div id="list" class="col-md-8">
             <table id="spbs" class="table table-condensed table-hover table-striped">
                 <thead>
                 <tr>
