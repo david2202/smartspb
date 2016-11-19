@@ -1,4 +1,4 @@
-package au.com.auspost.smartspb.web.controller;
+package au.com.auspost.smartspb.web.controller.rest;
 
 import au.com.auspost.smartspb.dao.ReadingDao;
 import au.com.auspost.smartspb.domain.Reading;

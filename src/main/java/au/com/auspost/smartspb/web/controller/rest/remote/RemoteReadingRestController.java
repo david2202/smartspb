@@ -1,4 +1,4 @@
-package au.com.auspost.smartspb.web.controller.remote;
+package au.com.auspost.smartspb.web.controller.rest.remote;
 
 import au.com.auspost.smartspb.domain.Reading;
 import au.com.auspost.smartspb.domain.RemoteConfiguration;

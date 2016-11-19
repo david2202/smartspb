@@ -18,7 +18,11 @@ public class Temperature {
     }
 
     public Temperature(BigDecimal temperature) {
-        this.value = temperature.setScale(1, BigDecimal.ROUND_HALF_UP);
+        if (temperature == null) {
+            this.value = null;
+        } else {
+            this.value = temperature.setScale(1, BigDecimal.ROUND_HALF_UP);
+        }
     }
 
     public BigDecimal getValue() {

@@ -18,6 +18,13 @@ public class StreetPostingBoxVO {
         this.config = remoteConfiguration.getProperties();
     }
 
+    public StreetPostingBoxVO(StreetPostingBox streetPostingBox) {
+        this.imei = streetPostingBox.getImei();
+        this.version = streetPostingBox.getVersion();
+        this.apiKey = streetPostingBox.getApiKey();
+        this.config = null;
+    }
+
     public String getImei() {
         return imei;
     }

@@ -2,6 +2,7 @@ package au.com.auspost.smartspb.domain;
 
 import org.apache.commons.lang.ObjectUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
@@ -13,6 +14,10 @@ public class StreetPostingBox {
     private TimeZone timezone;
     private String apiKey;
     private String prevApiKey;
+    private String address;
+    private Integer postCode;
+    private LatLong latLong;
+    private Reading latestReading;
     private List<Reading> readings = new ArrayList<>();
     private Integer version;
 
@@ -75,12 +80,45 @@ public class StreetPostingBox {
         this.prevApiKey = prevApiKey;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(Integer postCode) {
+        this.postCode = postCode;
+    }
+
+    public LatLong getLatLong() {
+        return latLong;
+    }
+
+    public void setLatLong(LatLong latLong) {
+        this.latLong = latLong;
+    }
+
+    public Reading getLatestReading() {
+        return latestReading;
+    }
+
+    public void setLatestReading(Reading latestReading) {
+        this.latestReading = latestReading;
+    }
+
     public List<Reading> getReadings() {
         return readings;
     }
 
     public StreetPostingBox addReading(Reading reading) {
         readings.add(reading);
+        latestReading = reading;
         return this;
     }
 

@@ -31,6 +31,18 @@ databaseChangeLog:
                 name: prev_api_key
                 type: varchar(36)
             - column:
+                name: address
+                type: varchar(40)
+            - column:
+                name: postcode
+                type: number(4)
+            - column:
+                name: latitude
+                type: number(9,6)
+            - column:
+                name: longitude
+                type: number(9,6)
+            - column:
                 name: version
                 type: int
                 constraints:
@@ -64,6 +76,79 @@ databaseChangeLog:
             - column:
                 name: prev_api_key
                 value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 82 St Andrews Drive Yanchep
+            - column:
+                name: postcode
+                value: 6035
+            - column:
+                name: latitude
+                value: -31.54041
+            - column:
+                name: longitude
+                value: 115.651
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 256765334454354
+            - column:
+                name: timezone
+                value: Australia/Perth
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 47 Two Rocks Road Two Rocks
+            - column:
+                name: postcode
+                value: 6037
+            - column:
+                name: latitude
+                value: -31.5036646
+            - column:
+                name: longitude
+                value: 115.5927279
+            - column:
+                name: version
+                value: 1
+
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 854848734774477
+            - column:
+                name: timezone
+                value: Australia/Perth
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 8 Enterprise Avenue Two Rocks
+            - column:
+                name: postcode
+                value: 6037
+            - column:
+                name: latitude
+                value: -31.4944587
+            - column:
+                name: longitude
+                value: 115.5834687
             - column:
                 name: version
                 value: 1
