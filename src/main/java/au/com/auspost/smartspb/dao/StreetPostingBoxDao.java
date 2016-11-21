@@ -23,7 +23,7 @@ import java.util.TimeZone;
 public class StreetPostingBoxDao {
     private static final String SQL_COLUMNS = "spb.id AS s_id, spb.imei, spb.timezone, spb.api_key, spb.prev_api_key, " +
             "spb.address, spb.postcode, spb.latitude, spb.longitude, spb.version, " +
-            "r.id AS r_id, r.date_time, r.grams, r.total_grams, r.degrees_c, r.latest_ind ";
+            "r.id AS r_id, r.date_time, r.grams, r.total_grams, r.article_count, r.degrees_c, r.latest_ind ";
     private static final String SQL_LOAD_BY_IMEI =
             "SELECT  " + SQL_COLUMNS +
                     "FROM street_posting_box spb " +
@@ -70,16 +70,20 @@ public class StreetPostingBoxDao {
         spb.setAddress(resultSet.getString("address"));
         spb.setPostCode(resultSet.getInt("postcode"));
         spb.setLatLong(new LatLong(resultSet.getBigDecimal("latitude"), resultSet.getBigDecimal("longitude")));
-        Reading r = new Reading(
-                resultSet.getInt("r_id"),
-                spb,
-                new DateTime(resultSet.getTimestamp("date_time"), DateTimeZone.forTimeZone(TimeZone.getDefault())),
-                resultSet.getInt("grams"),
-                resultSet.getInt("total_grams"),
-                new Temperature(resultSet.getBigDecimal("degrees_c")),
-                resultSet.getBoolean("latest_ind"));
-        spb.setLatestReading(r);
-        spb.addReading(r);
+        resultSet.getInt("r_id");
+        if (!resultSet.wasNull()) {
+            Reading r = new Reading(
+                    resultSet.getInt("r_id"),
+                    spb,
+                    new DateTime(resultSet.getTimestamp("date_time"), DateTimeZone.forTimeZone(TimeZone.getDefault())),
+                    resultSet.getInt("grams"),
+                    resultSet.getInt("total_grams"),
+                    resultSet.getInt("article_count"),
+                    new Temperature(resultSet.getBigDecimal("degrees_c")),
+                    resultSet.getBoolean("latest_ind"));
+            spb.setLatestReading(r);
+            spb.addReading(r);
+        }
         spb.setVersion(resultSet.getInt("version"));
         return spb;
     }

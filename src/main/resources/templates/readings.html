@@ -11,6 +11,12 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         jQuery(document).ready(function ($) {
+            if ($( window ).width() < 800) {
+                $("#readings th[data-column-id='localDateTime']").attr("data-visible", "false");
+                $("#readings th[data-column-id='localTimeZone']").attr("data-visible", "false");
+                $("#readings th[data-column-id='grams']").attr("data-visible", "false");
+                $("#readings th[data-column-id='degreesC']").attr("data-visible", "false");
+            }
             $("#readings").bootgrid({
                 navigation: 3,
                 formatters: {
@@ -70,18 +76,9 @@
         }
         /*]]>*/
     </script>
-    <style>
-        .reading-grams-header {
-            width: 10%;
-        }
-        .reading-degrees-header {
-            width: 10%;
-        }
-    </style>
 </head>
 
 <body>
-    <h1 layout:fragment="header">Readings</h1>
     <div layout:fragment="content" class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -91,9 +88,10 @@
                         <th data-column-id="dateTime" data-formatter="dateTime">Time</th>
                         <th data-column-id="localDateTime">Local Time</th>
                         <th data-column-id="localTimeZone">Local Time Zone</th>
-                        <th data-column-id="grams" data-type="numeric" data-align="right" data-header-align="right" data-header-css-class="reading-grams-header">Grams</th>
-                        <th data-column-id="totalGrams" data-type="numeric" data-align="right" data-header-align="right" data-header-css-class="reading-grams-header">Total Grams</th>
-                        <th data-column-id="degreesC" data-type="numeric" data-align="right" data-header-align="right"  data-header-css-class="reading-degrees-header">Temperature</th>
+                        <th data-column-id="articleCount" data-type="numeric" data-align="right" data-header-align="right">Articles</th>
+                        <th data-column-id="grams" data-type="numeric" data-align="right" data-header-align="right">Grams</th>
+                        <th data-column-id="totalGrams" data-type="numeric" data-align="right" data-header-align="right">Total Grams</th>
+                        <th data-column-id="degreesC" data-type="numeric" data-align="right" data-header-align="right">Temperature</th>
                     </tr>
                     </thead>
                     <tbody>

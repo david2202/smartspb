@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.TimeZone;
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class ReadingDaoIT {
 
     @Autowired
@@ -34,7 +36,7 @@ public class ReadingDaoIT {
 
         StreetPostingBox spb = new StreetPostingBox();
         spb.setId(1);
-        Reading reading = new Reading(spb, new DateTime(), 1012, 1200, Temperature.valueOf("27.3"));
+        Reading reading = new Reading(spb, new DateTime(), 1012, 1200, 1, Temperature.valueOf("27.3"));
         readingDao.save(reading);
 
         assertThat(reading.isLatest(), is(true));
@@ -45,6 +47,7 @@ public class ReadingDaoIT {
         assertThat(readings.get(0).getId(), is(3));
         assertThat(readings.get(0).getGrams(), is(1012));
         assertThat(readings.get(0).getTotalGrams(), is(1200));
+        assertThat(readings.get(0).getArticleCount(), is(1));
         assertThat(readings.get(0).getDegreesC(), is(Temperature.valueOf("27.3")));
         assertThat(readings.get(0).isLatest(), is(true));
 
@@ -72,12 +75,14 @@ public class ReadingDaoIT {
         assertThat(readings.get(0).getDateTime(), is(new DateTime(2016, 11, 1, 7, 1, 0)));
         assertThat(readings.get(0).getGrams(), is(11));
         assertThat(readings.get(0).getTotalGrams(), is(161));
+        assertThat(readings.get(0).getArticleCount(), is(2));
         assertThat(readings.get(0).getDegreesC(), is(Temperature.valueOf("21.4")));
         assertThat(readings.get(0).isLatest(), is(true));
 
         assertThat(readings.get(1).getDateTime(), is(new DateTime(2016, 11, 1, 7, 0, 0)));
         assertThat(readings.get(1).getGrams(), is(10));
         assertThat(readings.get(1).getTotalGrams(), is(150));
+        assertThat(readings.get(1).getArticleCount(), is(1));
         assertThat(readings.get(1).getDegreesC(), is(Temperature.valueOf("21.3")));
         assertThat(readings.get(1).isLatest(), is(false));
     }

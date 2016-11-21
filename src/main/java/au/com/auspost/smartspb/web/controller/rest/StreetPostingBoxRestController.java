@@ -25,10 +25,16 @@ public class StreetPostingBoxRestController {
     private StreetPostingBoxDao streetPostingBoxDao;
 
     @RequestMapping(value = "/spbs", method = RequestMethod.GET)
-    public List<StreetPostingBoxVO> list() {
+    public List<StreetPostingBoxVO> list(@RequestParam(name = "timeZone", required = false) Integer timeZoneOffsetMinutes) {
+        String timeZoneOffset = null;
+        if (timeZoneOffsetMinutes != null) {
+            Integer timeZoneHours = timeZoneOffsetMinutes / 60;
+            Integer timeZoneMinutes = timeZoneOffsetMinutes % 60;
+            timeZoneOffset = String.format("GMT%+02d:%02d", timeZoneHours, timeZoneMinutes);
+        }
         List<StreetPostingBoxVO> spbs = new ArrayList<>();
         for (StreetPostingBox spb:streetPostingBoxDao.list()) {
-            spbs.add(new StreetPostingBoxVO(spb));
+            spbs.add(new StreetPostingBoxVO(spb, timeZoneOffset));
         }
         return spbs;
     }

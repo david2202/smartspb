@@ -15,12 +15,45 @@
         var markers;
 
         jQuery(document).ready(function ($) {
-            $("#readings").bootgrid({
+            if ($( window ).width() < 768) {
+                $("#spbs th[data-column-id='postCode']").attr("data-visible", "false");
+                $("#spbs th[data-column-id='grams']").attr("data-visible", "false");
+                $("#spbs th[data-column-id='totalGrams']").attr("data-visible", "false");
+                $("#spbs th[data-column-id='degreesC']").attr("data-visible", "false");
+
+                $("#map").css("height", ($( window ).height() - $("#nav").height() + 20) + "px");
+            }
+            $("#spbs").bootgrid({
                 navigation: 3,
                 formatters: {
-                        "dateTime": function(column, row) {
-                            return row.dateTime;
-                        }
+                        "grams": function(column, row) {
+                            if (row.grams == null) {
+                                return '';
+                            } else {
+                                return row.grams;
+                            }
+                        },
+                        "totalGrams": function(column, row) {
+                            if (row.totalGrams == null) {
+                                return '';
+                            } else {
+                                return row.totalGrams;
+                            }
+                        },
+                        "articleCount": function(column, row) {
+                            if (row.articleCount == null) {
+                                return '';
+                            } else {
+                                return row.articleCount;
+                            }
+                        },
+                        "degreesC": function(column, row) {
+                            if (row.degreesC == null) {
+                                return '';
+                            } else {
+                                return row.degreesC;
+                            }
+                        },
                     }
             });
             connect();
@@ -50,6 +83,7 @@
 
         function retrieveSPBs() {
             $.get("/rest/api/spbs",
+                { timeZone: new Date().getTimezoneOffset() * -1 },
                 function(data) {
                     spbs = data;
                     $("#spbs")
@@ -96,27 +130,32 @@
     <style>
         #map {
             height: 600px;
-            width: 360px;
+        }
+        #map img {
+           max-width: none;
         }
     </style>
 </head>
 <!-- API Key AIzaSyARB7odEMxJYFxgOx5-eBjmx0iF6CZ8zdk -->
 <body>
-<h1 layout:fragment="header">Street Posting Boxes</h1>
 <div layout:fragment="content">
     <div class="row">
-        <div id="map" class="col-md-4">
-            <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARB7odEMxJYFxgOx5-eBjmx0iF6CZ8zdk&amp;callback=retrieveSPBs"></script>
+        <div id="mapContainer" class="col-md-3">
+            <div id="map">
+                <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARB7odEMxJYFxgOx5-eBjmx0iF6CZ8zdk&amp;callback=retrieveSPBs"></script>
+            </div>
         </div>
-        <div id="list" class="col-md-8">
+        <div id="list" class="col-md-9">
             <table id="spbs" class="table table-condensed table-hover table-striped">
                 <thead>
                 <tr>
                     <th data-column-id="address">Address</th>
                     <th data-column-id="postCode" data-type="numeric" data-align="right" data-header-align="right">Post Code</th>
-                    <th data-column-id="grams" data-type="numeric" data-align="right" data-header-align="right">Grams</th>
-                    <th data-column-id="totalGrams" data-type="numeric" data-align="right" data-header-align="right">Total Grams</th>
-                    <th data-column-id="degreesC" data-type="numeric" data-align="right" data-header-align="right">Temperature</th>
+                    <th data-column-id="lastReadingDateTime" data-width="15%">Last Reading Time</th>
+                    <th data-column-id="grams" data-type="numeric" data-formatter="grams" data-align="right" data-header-align="right" data-width="10%">Grams</th>
+                    <th data-column-id="totalGrams" data-type="numeric" data-formatter="totalGrams" data-align="right" data-header-align="right" data-width="10%">Total Grams</th>
+                    <th data-column-id="articleCount" data-type="numeric" data-formatter="articleCount" data-align="right" data-header-align="right" data-width="10%">Articles</th>
+                    <th data-column-id="degreesC" data-type="numeric" data-formatter="degreesC" data-align="right" data-header-align="right" data-width="10%">Temperature</th>
                 </tr>
                 </thead>
                 <tbody>

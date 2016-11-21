@@ -15,6 +15,7 @@ import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -45,11 +46,14 @@ public class RemoteReadingRestController {
         if (!spb.checkApiKey(apiKey)) {
             throw new UnauthorisedAccessException();
         }
+
+        List<Reading> readings = new ArrayList<>();
         for (ReadingVO readingVO : readingVOs) {
             DateTime readingDateTime = new DateTime().minusSeconds(readingVO.getSecondsAgo());
-            Reading reading = new Reading(spb, readingDateTime, readingVO.getGrams(), readingVO.getTotalGrams(), readingVO.getDegreesC());
-            readingService.save(reading);
+            Reading reading = new Reading(spb, readingDateTime, readingVO.getGrams(), readingVO.getTotalGrams(), readingVO.getArticleCount(), readingVO.getDegreesC());
+            readings.add(reading);
         }
+        readingService.save(readings);
 
         RemoteConfiguration remoteConfiguration = remoteConfigurationService.load();
         this.template.convertAndSend("/topic/readingsUpdate", readingVOs);

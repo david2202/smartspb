@@ -1,5 +1,6 @@
 package au.com.auspost.smartspb.web.controller.rest.remote;
 
+import au.com.auspost.smartspb.domain.Reading;
 import au.com.auspost.smartspb.domain.RemoteConfiguration;
 import au.com.auspost.smartspb.domain.StreetPostingBox;
 import au.com.auspost.smartspb.domain.Temperature;
@@ -83,7 +84,7 @@ public class RemoteReadingRestControllerTest {
                 .andExpect(jsonPath("$.configVersion", is(remoteConfiguration.getVersion())))
                 .andExpect(jsonPath("$.spbVersion", is(spb.getVersion())));
         verify(streetPostingBoxService).load(spb.getImei());
-        verify(readingService).save(any());
+        verify(readingService).save(any(List.class));
         verify(remoteConfigurationService).load();
         verify(messagingTemplate).convertAndSend(eq("/topic/readingsUpdate"), any(List.class));
     }
@@ -109,7 +110,7 @@ public class RemoteReadingRestControllerTest {
         )
                 .andExpect(status().isUnauthorized());
         verify(streetPostingBoxService).load(spb.getImei());
-        verify(readingService, never()).save(any());
+        verify(readingService, never()).save(any(Reading.class));
         verify(remoteConfigurationService, never()).load();
         verify(messagingTemplate, never()).convertAndSend(any(), any(List.class));
     }

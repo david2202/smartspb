@@ -191,6 +191,11 @@ databaseChangeLog:
                 constraints:
                   nullable: false
             - column:
+                name: article_count
+                type: int
+                constraints:
+                  nullable: false
+            - column:
                 name: degrees_c
                 type: number(4, 1)
             - column:
@@ -229,6 +234,9 @@ databaseChangeLog:
                 name: total_grams
                 value: 150
             - column:
+                name: article_count
+                value: 1
+            - column:
                 name: degrees_c
                 value: 21.3
             - column:
@@ -249,6 +257,9 @@ databaseChangeLog:
             - column:
                 name: total_grams
                 value: 161
+            - column:
+                name: article_count
+                value: 2
             - column:
                 name: degrees_c
                 value: 21.4

@@ -43,6 +43,7 @@ public class StreetPostingBoxDaoIT {
         assertThat(spb.getLatestReading().isLatest(), is(true));
         assertThat(spb.getLatestReading().getGrams(), is(11));
         assertThat(spb.getLatestReading().getTotalGrams(), is(161));
+        assertThat(spb.getLatestReading().getArticleCount(), is(2));
         assertThat(spb.getLatestReading().getDegreesC(), is(new Temperature(BigDecimal.valueOf(214, 1))));
         assertThat(spb.getApiKey(), is("16fa2ee7-6614-4f62-bc16-a3c6fa189675"));
         assertThat(spb.getPrevApiKey(), is("a73c5740-1cde-40a9-bde7-1d5e44761f77"));

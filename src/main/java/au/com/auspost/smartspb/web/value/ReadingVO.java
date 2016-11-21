@@ -8,13 +8,16 @@ import au.com.auspost.smartspb.util.json.TemperatureJsonDeserializer;
 import au.com.auspost.smartspb.util.json.TemperatureJsonSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.NumberDeserializers;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.util.TimeZone;
 
+import static au.com.auspost.smartspb.Constants.DATE_FORMAT;
+
 public class ReadingVO {
-    private static final String DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";
+
     private Integer id;
     private Href streetPostingBox;
     private String dateTime;
@@ -22,6 +25,7 @@ public class ReadingVO {
     private String localTimeZone;
     private Integer grams;
     private Integer totalGrams;
+    private Integer articleCount;
     private Temperature degreesC;
 
     public ReadingVO(Reading r, String timeZone) {
@@ -36,6 +40,7 @@ public class ReadingVO {
         this.localTimeZone = r.getStreetPostingBox().getTimezone().getDisplayName();
         this.grams = r.getGrams();
         this.totalGrams = r.getTotalGrams();
+        this.articleCount = r.getArticleCount();
         this.degreesC = r.getDegreesC();
     }
 
@@ -65,6 +70,10 @@ public class ReadingVO {
 
     public Integer getTotalGrams() {
         return totalGrams;
+    }
+
+    public Integer getArticleCount() {
+        return articleCount;
     }
 
     public Temperature getDegreesC() {
