@@ -5,59 +5,27 @@ import org.joda.time.DateTimeZone;
 
 public class Reading {
     private Integer id;
-    private StreetPostingBox streetPostingBox;
-    private DateTime dateTime;
+    private Event event;
     private Integer grams;
     private Integer totalGrams;
     private Integer articleCount;
     private Temperature degreesC;
-    private Boolean latest;
 
-    public Reading(Integer id, StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Integer totalGrams, Integer articleCount, Temperature degreesC) {
+    public Reading(Integer id, Event event, Integer grams, Integer totalGrams, Integer articleCount, Temperature degreesC) {
         this.id = id;
-        this.streetPostingBox = streetPostingBox;
-        this.dateTime = dateTime;
+        this.event = event;
         this.grams = grams;
         this.totalGrams = totalGrams;
         this.articleCount = articleCount;
         this.degreesC = degreesC;
-        this.latest = false;
     }
 
-    public Reading(Integer id, StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Integer totalGrams, Integer articleCount, Temperature degreesC, Boolean latest) {
-        this.id = id;
-        this.streetPostingBox = streetPostingBox;
-        this.dateTime = dateTime;
+    public Reading(Event event, Integer grams, Integer totalGrams, Integer articleCount, Temperature degreesC) {
+        this.event = event;
         this.grams = grams;
         this.totalGrams = totalGrams;
         this.articleCount = articleCount;
         this.degreesC = degreesC;
-        this.latest = latest;
-    }
-
-    public Reading(StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Integer totalGrams, Integer articleCount, Temperature degreesC) {
-        this.streetPostingBox = streetPostingBox;
-        this.dateTime = dateTime;
-        this.grams = grams;
-        this.totalGrams = totalGrams;
-        this.articleCount = articleCount;
-        this.degreesC = degreesC;
-        this.latest = false;
-    }
-
-    public Reading(StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Integer totalGrams, Integer articleCount, Temperature degreesC, Boolean latest) {
-        this.streetPostingBox = streetPostingBox;
-        this.dateTime = dateTime;
-        this.grams = grams;
-        this.totalGrams = totalGrams;
-        this.articleCount = articleCount;
-        this.degreesC = degreesC;
-        this.latest = latest;
-    }
-
-    public Reading makeLatest() {
-        this.latest = true;
-        return this;
     }
 
     public Integer getId() {
@@ -68,16 +36,8 @@ public class Reading {
         this.id = id;
     }
 
-    public StreetPostingBox getStreetPostingBox() {
-        return streetPostingBox;
-    }
-
-    public DateTime getDateTime() {
-        return dateTime;
-    }
-
-    public DateTime getLocalDateTime() {
-        return dateTime.withZone(DateTimeZone.forID(streetPostingBox.getTimezone().getID()));
+    public Event getEvent() {
+        return event;
     }
 
     public Integer getGrams() {
@@ -94,9 +54,5 @@ public class Reading {
 
     public Temperature getDegreesC() {
         return degreesC;
-    }
-
-    public Boolean isLatest() {
-        return latest;
     }
 }

@@ -159,7 +159,7 @@ databaseChangeLog:
         comment: Create reading table
         changes:
         - createTable:
-            tableName: reading
+            tableName: event
             columns:
             - column:
                 name: id
@@ -173,13 +173,35 @@ databaseChangeLog:
                 type: int
                 constraints:
                   nullable: false
-                  foreignKeyName: fk_reading_spb
+                  foreignKeyName: fk_event_spb
                   references: street_posting_box(id)
             - column:
                 name: date_time
                 type: datetime
                 constraints:
                   nullable: false
+            - column:
+                name: latest_ind
+                type: boolean
+                constraints:
+                  nullable: false
+        - createTable:
+            tableName: reading
+            columns:
+            - column:
+                name: id
+                type: int
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  nullable: false
+            - column:
+                name: event_id
+                type: int
+                constraints:
+                  nullable: false
+                  foreignKeyName: fk_reading_event
+                  references: event(id)
             - column:
                 name: grams
                 type: int
@@ -198,11 +220,6 @@ databaseChangeLog:
             - column:
                 name: degrees_c
                 type: number(4, 1)
-            - column:
-                name: latest_ind
-                type: boolean
-                constraints:
-                  nullable: false
         - createIndex:
             columns:
             - column:
