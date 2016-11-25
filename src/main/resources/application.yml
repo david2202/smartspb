@@ -20,6 +20,10 @@ spring:
 ---
 spring:
     profiles: infra
+
+---
+spring:
+    profiles: pdev
     datasource:
       url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}?autoReconnect=true&amp;serverTimezone=UTC
       username: ${RDS_USERNAME}

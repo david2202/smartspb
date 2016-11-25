@@ -56,10 +56,9 @@ databaseChangeLog:
               unique: true
 
     - changeSet:
-        id: 1.0-1-dev
+        id: 1.0-2
         author: howed
-        context: "!(pdev OR ptest OR sdev OR stest OR prod)"
-        comment: Insert SPB data for local development
+        comment: Insert SPB data
         changes:
         - insert:
             tableName: street_posting_box
@@ -67,6 +66,403 @@ databaseChangeLog:
             - column:
                 name: imei
                 value: 359769034498003
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 152 Bligh St, Warrane
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.856737
+            - column:
+                name: longitude
+                value: 147.381942
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 623233982383836
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 14 Edgeworth St, Warrane
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.860217
+            - column:
+                name: longitude
+                value: 147.377398
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 234924324783982
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 46 Bligh St, Rosny Park
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.863753
+            - column:
+                name: longitude
+                value: 147.370972
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 239098243674342
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 5 Alma Rd, Bellerive
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.871513
+            - column:
+                name: longitude
+                value: 147.371683
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 782342432432432
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 33 Beach St, Bellerive
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.87561
+            - column:
+                name: longitude
+                value: 147.376218
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 624356236235621
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 65 Wentworth St, Bellerive
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.875822
+            - column:
+                name: longitude
+                value: 147.38797
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 243989823982283
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 36 Hill St, Bellerive
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.873563
+            - column:
+                name: longitude
+                value: 147.382391
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 823461542426743
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 11 Belar St, Howrah
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.875635
+            - column:
+                name: longitude
+                value: 147.393452
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 982398234737243
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 183 Clarence St, Howrah
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.877909
+            - column:
+                name: longitude
+                value: 147.396501
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 984367432311212
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 18 Ninabah St, Howrah
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.87499
+            - column:
+                name: longitude
+                value: 147.398874
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 658594935204638
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: Opposite 93 Tranmere Rd, Howrah
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.896812
+            - column:
+                name: longitude
+                value: 147.411673
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 397652098363543
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 3 Binalong Rd, Mornington
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.862493
+            - column:
+                name: longitude
+                value: 147.380036
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 186435438230753
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 273 Cambridge Rd,  Warrane
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.858529
+            - column:
+                name: longitude
+                value: 147.388683
+            - column:
+                name: version
+                value: 1
+
+    - changeSet:
+        id: 1.0-2-dev
+        author: howed
+        context: "!(infra OR pdev OR ptest OR sdev OR stest OR prod)"
+        comment: Insert SPB data for local development
+        changes:
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 723724378324782
             - column:
                 name: timezone
                 value: Australia/Perth
@@ -154,7 +550,7 @@ databaseChangeLog:
                 value: 1
 
     - changeSet:
-        id: 1.0-2
+        id: 1.0-3
         author: howed
         comment: Create reading table
         changes:
@@ -213,9 +609,9 @@ databaseChangeLog:
             tableName: reading
 
     - changeSet:
-        id: 1.0-2-dev
+        id: 1.0-3-dev
         author: howed
-        context: "!(pdev OR ptest OR sdev OR stest OR prod)"
+        context: "!(infra OR pdev OR ptest OR sdev OR stest OR prod)"
         comment: Insert reading data for local development
         changes:
         - insert:
@@ -268,7 +664,7 @@ databaseChangeLog:
                 value: true
 
     - changeSet:
-        id: 1.0-3
+        id: 1.0-4
         author: howed
         comment: Create remote_config table
         changes:
@@ -360,10 +756,10 @@ databaseChangeLog:
                 value: The number of seconds the microcontroller should sleep for.
 
     - changeSet:
-        id: 1.0-3-dev
+        id: 1.0-4-dev
         author: howed
         comment: Insert remote_config data for local development
-        context: "!(pdev OR ptest OR sdev OR stest OR prod)"
+        context: "!(infra OR pdev OR ptest OR sdev OR stest OR prod)"
         changes:
         - update:
             tableName: remote_config_prop
