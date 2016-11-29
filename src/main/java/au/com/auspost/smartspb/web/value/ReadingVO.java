@@ -37,7 +37,7 @@ public class ReadingVO {
             this.dateTime = r.getDateTime().toDateTime(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone))).toString(DATE_FORMAT);
         }
         this.localDateTime = r.getLocalDateTime().toString(DATE_FORMAT);
-        this.localTimeZone = r.getStreetPostingBox().getTimezone().getDisplayName();
+        this.localTimeZone = r.getStreetPostingBox().getTimezone().getID();
         this.grams = r.getGrams();
         this.totalGrams = r.getTotalGrams();
         this.articleCount = r.getArticleCount();
