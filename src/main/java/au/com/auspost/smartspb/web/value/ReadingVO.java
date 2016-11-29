@@ -20,6 +20,7 @@ public class ReadingVO {
 
     private Integer id;
     private Href streetPostingBox;
+    private String address;
     private String dateTime;
     private String localDateTime;
     private String localTimeZone;
@@ -31,6 +32,7 @@ public class ReadingVO {
     public ReadingVO(Reading r, String timeZone) {
         this.id = r.getId();
         this.streetPostingBox = new Href("/rest/api/" + r.getStreetPostingBox().getId());
+        this.address = r.getStreetPostingBox().getAddress();
         if (timeZone == null) {
             this.dateTime = r.getDateTime().toString(DATE_FORMAT);
         } else {
@@ -50,6 +52,10 @@ public class ReadingVO {
 
     public Href getStreetPostingBox() {
         return streetPostingBox;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public String getDateTime() {

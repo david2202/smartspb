@@ -36,7 +36,7 @@ public class ReadingDao {
                     "WHERE street_posting_box_id = :streetPostingBoxId AND latest_ind = :latestInd;";
     private static final String SQL_LIST =
             "SELECT r.id,r.street_posting_box_id, r.date_time, r.grams, r.total_grams, r.article_count, r.degrees_c, r.latest_ind, " +
-                    "spb.imei, spb.timezone, spb.api_key, spb.prev_api_key, spb.version " +
+                    "spb.imei, spb.timezone, spb.address, spb.api_key, spb.prev_api_key, spb.version " +
                     "FROM reading r " +
                     "JOIN street_posting_box spb on r.street_posting_box_id = spb.id " +
                     "WHERE r.date_time >= :dateTime " +
@@ -83,6 +83,7 @@ public class ReadingDao {
                 spb.setId(resultSet.getInt("street_posting_box_id"));
                 spb.setImei(resultSet.getString("imei"));
                 spb.setTimezone(resultSet.getString("timezone"));
+                spb.setAddress(resultSet.getString("address"));
                 spb.setApiKey(resultSet.getString("api_key"));
                 spb.setPrevApiKey(resultSet.getString("prev_api_key"));
                 spb.setVersion(resultSet.getInt("version"));
