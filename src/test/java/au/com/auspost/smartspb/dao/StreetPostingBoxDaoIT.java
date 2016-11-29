@@ -33,12 +33,12 @@ public class StreetPostingBoxDaoIT {
     private void assertSpb1(StreetPostingBox spb) {
         assertThat(spb.getImei(), is("359769034498003"));
         assertThat(spb.getId(), is(1));
-        assertThat(spb.getTimezone(), is(TimeZone.getTimeZone("Australia/Perth")));
-        assertThat(spb.getAddress(), is("82 St Andrews Drive Yanchep"));
-        assertThat(spb.getPostCode(), is(6035));
+        assertThat(spb.getTimezone(), is(TimeZone.getTimeZone("Australia/Hobart")));
+        assertThat(spb.getAddress(), is("152 Bligh St, Warrane"));
+        assertThat(spb.getPostCode(), is(7018));
         assertThat(spb.getLatLong(), is(notNullValue()));
-        assertThat(spb.getLatLong().getLatitude(), is(BigDecimal.valueOf(-31540410, 6)));
-        assertThat(spb.getLatLong().getLongitude(), is(BigDecimal.valueOf(115651000, 6)));
+        assertThat(spb.getLatLong().getLatitude(), is(BigDecimal.valueOf(-42856737, 6)));
+        assertThat(spb.getLatLong().getLongitude(), is(BigDecimal.valueOf(147381942, 6)));
         assertThat(spb.getLatestReading(), is(notNullValue()));
         assertThat(spb.getLatestReading().isLatest(), is(true));
         assertThat(spb.getLatestReading().getGrams(), is(11));
@@ -54,7 +54,7 @@ public class StreetPostingBoxDaoIT {
     public void testList() {
         List<StreetPostingBox> spbs = streetPostingBoxDao.list();
 
-        assertThat(spbs.size(), is(3));
+        assertThat(spbs.size(), is(16));
 
         assertSpb1(spbs.get(0));
     }
