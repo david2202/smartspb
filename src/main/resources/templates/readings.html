@@ -51,22 +51,14 @@
         }
 
         function retrieveReadings() {
-            var today = new Date();
-            var dd = today.getDate() - 1;
-            var mm = today.getMonth() + 1; //January is 0!
-            var yyyy = today.getFullYear();
+            var yesterday = new Date(new Date().getTime() - (1*24*60*60*1000));
 
-            if (dd < 10) {
-                dd='0' + dd;
-            }
-
-            if (mm < 10) {
-                mm='0' + mm;
-            }
-            today = yyyy + '-' + mm + '-'+ dd;
+            var dd = ('0' + yesterday.getDate()).slice(-2);
+            var mm = ('0' + (yesterday.getMonth() + 1)).slice(-2);
+            var yyyy = yesterday.getFullYear();
 
             $.get("/rest/api/readings",
-                 { dateTime: today + " 00:00:00",
+                 { dateTime: yyyy + '-' + mm + '-'+ dd + " 00:00:00",
                  timeZone: new Date().getTimezoneOffset() * -1 },
                 function(data) {
                     $("#readings")
