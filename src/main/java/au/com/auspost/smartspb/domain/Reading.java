@@ -9,23 +9,20 @@ public class Reading {
     private Integer grams;
     private Integer totalGrams;
     private Integer articleCount;
-    private Temperature degreesC;
 
-    public Reading(Integer id, Event event, Integer grams, Integer totalGrams, Integer articleCount, Temperature degreesC) {
+    public Reading(Integer id, Event event, Integer grams, Integer totalGrams, Integer articleCount) {
         this.id = id;
         this.event = event;
         this.grams = grams;
         this.totalGrams = totalGrams;
         this.articleCount = articleCount;
-        this.degreesC = degreesC;
     }
 
-    public Reading(Event event, Integer grams, Integer totalGrams, Integer articleCount, Temperature degreesC) {
+    public Reading(Event event, Integer grams, Integer totalGrams, Integer articleCount) {
         this.event = event;
         this.grams = grams;
         this.totalGrams = totalGrams;
         this.articleCount = articleCount;
-        this.degreesC = degreesC;
     }
 
     public Integer getId() {
@@ -40,6 +37,10 @@ public class Reading {
         return event;
     }
 
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
     public Integer getGrams() {
         return grams;
     }
@@ -50,9 +51,5 @@ public class Reading {
 
     public Integer getArticleCount() {
         return articleCount;
-    }
-
-    public Temperature getDegreesC() {
-        return degreesC;
     }
 }

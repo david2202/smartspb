@@ -31,19 +31,19 @@ public class ReadingVO {
 
     public ReadingVO(Reading r, String timeZone) {
         this.id = r.getId();
-        this.streetPostingBox = new Href("/rest/api/" + r.getStreetPostingBox().getId());
-        this.address = r.getStreetPostingBox().getAddress();
+        this.streetPostingBox = new Href("/rest/api/" + r.getEvent().getStreetPostingBox().getId());
+        this.address = r.getEvent().getStreetPostingBox().getAddress();
         if (timeZone == null) {
-            this.dateTime = r.getDateTime().toString(DATE_FORMAT);
+            this.dateTime = r.getEvent().getDateTime().toString(DATE_FORMAT);
         } else {
-            this.dateTime = r.getDateTime().toDateTime(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone))).toString(DATE_FORMAT);
+            this.dateTime = r.getEvent().getDateTime().toDateTime(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone))).toString(DATE_FORMAT);
         }
-        this.localDateTime = r.getLocalDateTime().toString(DATE_FORMAT);
-        this.localTimeZone = r.getStreetPostingBox().getTimezone().getID();
+        this.localDateTime = r.getEvent().getLocalDateTime().toString(DATE_FORMAT);
+        this.localTimeZone = r.getEvent().getStreetPostingBox().getTimezone().getID();
         this.grams = r.getGrams();
         this.totalGrams = r.getTotalGrams();
         this.articleCount = r.getArticleCount();
-        this.degreesC = r.getDegreesC();
+        this.degreesC = r.getEvent().getDegreesC();
     }
 
     public Integer getId() {

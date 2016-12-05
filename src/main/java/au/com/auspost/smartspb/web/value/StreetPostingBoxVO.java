@@ -48,14 +48,14 @@ public class StreetPostingBoxVO {
         this.latLong = new LatLongVO(streetPostingBox.getLatLong());
         if (streetPostingBox.getLatestReading() != null) {
             if (timeZone == null) {
-                this.lastReadingDateTime = streetPostingBox.getLatestReading().getDateTime().toString(DATE_FORMAT);
+                this.lastReadingDateTime = streetPostingBox.getLatestReading().getEvent().getDateTime().toString(DATE_FORMAT);
             } else {
-                this.lastReadingDateTime = streetPostingBox.getLatestReading().getDateTime().toDateTime(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone))).toString(DATE_FORMAT);
+                this.lastReadingDateTime = streetPostingBox.getLatestReading().getEvent().getDateTime().toDateTime(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone))).toString(DATE_FORMAT);
             }
             this.grams = streetPostingBox.getLatestReading().getGrams();
             this.totalGrams = streetPostingBox.getLatestReading().getTotalGrams();
             this.articleCount = streetPostingBox.getLatestReading().getArticleCount();
-            this.degreesC = streetPostingBox.getLatestReading().getDegreesC();
+            this.degreesC = streetPostingBox.getLatestReading().getEvent().getDegreesC();
         }
     }
 

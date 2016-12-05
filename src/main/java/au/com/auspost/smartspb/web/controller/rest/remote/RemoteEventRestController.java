@@ -9,6 +9,7 @@ import au.com.auspost.smartspb.service.RemoteConfigurationService;
 import au.com.auspost.smartspb.service.StreetPostingBoxService;
 import au.com.auspost.smartspb.web.exception.UnauthorisedAccessException;
 import au.com.auspost.smartspb.web.value.remote.ConfigVersionVO;
+import au.com.auspost.smartspb.web.value.remote.EventVO;
 import au.com.auspost.smartspb.web.value.remote.ReadingVO;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,26 +22,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/rest/remote")
-public class RemoteReadingRestController {
+public class RemoteEventRestController {
     @Autowired
     private StreetPostingBoxService streetPostingBoxService;
 
     @Autowired
     private RemoteConfigurationService remoteConfigurationService;
 
-    @Autowired
-    private EventService eventService;
-
     private SimpMessagingTemplate template;
 
     @Autowired
-    public RemoteReadingRestController(SimpMessagingTemplate template) {
+    private EventService eventService;
+
+    @Autowired
+    public RemoteEventRestController(SimpMessagingTemplate template) {
         this.template = template;
         template.setMessageConverter(new MappingJackson2MessageConverter());
     }
 
-    @RequestMapping(value = "/spb/{imei}/reading", method = RequestMethod.POST)
-    public ConfigVersionVO create(@RequestBody List<ReadingVO> readingVOs,
+    @RequestMapping(value = "/spb/{imei}/event", method = RequestMethod.POST)
+    public ConfigVersionVO create(@RequestBody List<EventVO> eventVOs,
                                   @RequestHeader("apiKey") String apiKey,
                                   @PathVariable("imei") String imei) {
         StreetPostingBox spb = streetPostingBoxService.load(imei);
@@ -48,19 +49,21 @@ public class RemoteReadingRestController {
             throw new UnauthorisedAccessException();
         }
 
-        List<Reading> readings = new ArrayList<>();
-        for (ReadingVO readingVO : readingVOs) {
-            DateTime readingDateTime = new DateTime().minusSeconds(readingVO.getSecondsAgo());
-            Event event = new Event(spb, Event.Type.READING, readingDateTime, readingVO.getDegreesC(), false);
-            Reading reading = new Reading(event, readingVO.getGrams(), readingVO.getTotalGrams(), readingVO.getArticleCount());
-            readings.add(reading);
+        List<Event> events = new ArrayList<>();
+        for (EventVO eventVO : eventVOs) {
+            DateTime readingDateTime = new DateTime().minusSeconds(eventVO.getSecondsAgo());
+            Event event = new Event(spb, Event.Type.valueOf(eventVO.getType()), readingDateTime, eventVO.getDegreesC(), false);
+            if (Event.Type.valueOf(eventVO.getType()) == Event.Type.READING) {
+                Reading reading = new Reading(event, eventVO.getGrams(), eventVO.getTotalGrams(), eventVO.getArticleCount());
+                event.makeReading(reading);
+            }
+            events.add(event);
         }
-        readings.get(readings.size() - 1).getEvent().makeLatest();
-        eventService.save(readings);
+        eventService.saveEvents(events);
 
         RemoteConfiguration remoteConfiguration = remoteConfigurationService.load();
-        this.template.convertAndSend("/topic/readingsUpdate", readingVOs);
-        this.template.convertAndSend("/topic/eventsUpdate", readingVOs);
+        this.template.convertAndSend("/topic/readingsUpdate", eventVOs);
+        this.template.convertAndSend("/topic/eventsUpdate", eventVOs);
         return new ConfigVersionVO(spb, remoteConfiguration);
     }
 }

@@ -4,7 +4,7 @@ import au.com.auspost.smartspb.domain.Reading;
 import au.com.auspost.smartspb.domain.RemoteConfiguration;
 import au.com.auspost.smartspb.domain.StreetPostingBox;
 import au.com.auspost.smartspb.domain.Temperature;
-import au.com.auspost.smartspb.service.ReadingService;
+import au.com.auspost.smartspb.service.EventService;
 import au.com.auspost.smartspb.service.RemoteConfigurationService;
 import au.com.auspost.smartspb.service.StreetPostingBoxService;
 import au.com.auspost.smartspb.web.value.remote.ReadingVO;
@@ -43,7 +43,7 @@ public class RemoteReadingRestControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private ReadingService readingService;
+    private EventService eventService;
 
     @MockBean
     private StreetPostingBoxService streetPostingBoxService;
@@ -84,7 +84,7 @@ public class RemoteReadingRestControllerTest {
                 .andExpect(jsonPath("$.configVersion", is(remoteConfiguration.getVersion())))
                 .andExpect(jsonPath("$.spbVersion", is(spb.getVersion())));
         verify(streetPostingBoxService).load(spb.getImei());
-        verify(readingService).save(any(List.class));
+        verify(eventService).save(any(List.class));
         verify(remoteConfigurationService).load();
         verify(messagingTemplate).convertAndSend(eq("/topic/readingsUpdate"), any(List.class));
     }
@@ -110,7 +110,7 @@ public class RemoteReadingRestControllerTest {
         )
                 .andExpect(status().isUnauthorized());
         verify(streetPostingBoxService).load(spb.getImei());
-        verify(readingService, never()).save(any(Reading.class));
+        verify(eventService, never()).save(any(Reading.class));
         verify(remoteConfigurationService, never()).load();
         verify(messagingTemplate, never()).convertAndSend(any(), any(List.class));
     }

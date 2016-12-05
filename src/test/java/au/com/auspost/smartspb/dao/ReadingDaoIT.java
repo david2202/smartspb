@@ -1,5 +1,6 @@
 package au.com.auspost.smartspb.dao;
 
+import au.com.auspost.smartspb.domain.Event;
 import au.com.auspost.smartspb.domain.Reading;
 import au.com.auspost.smartspb.domain.StreetPostingBox;
 import au.com.auspost.smartspb.domain.Temperature;
@@ -27,19 +28,24 @@ public class ReadingDaoIT {
     @Autowired
     private ReadingDao readingDao;
 
+    @Autowired
+    private EventDao eventDao;
+
     @Test
     public void testSave() {
         List<Reading> readings = readingDao.list(new DateTime(2016, 11, 1, 0, 0, 0));
         assertThat(readings.size(), is(2));
-        assertThat(readings.get(0).isLatest(), is(true));
-        assertThat(readings.get(1).isLatest(), is(false));
+        assertThat(readings.get(0).getEvent().isLatestForType(), is(true));
+        assertThat(readings.get(1).getEvent().isLatestForType(), is(false));
 
         StreetPostingBox spb = new StreetPostingBox();
         spb.setId(1);
-        Reading reading = new Reading(spb, new DateTime(), 1012, 1200, 1, Temperature.valueOf("27.3"));
-        readingDao.save(reading);
 
-        assertThat(reading.isLatest(), is(true));
+        Event event = new Event(spb, Event.Type.READING, new DateTime(), Temperature.valueOf("27.3"), true);
+        Reading reading = new Reading(event, 1012, 1200, 1);
+        eventDao.clearLatest(spb.getId(), Event.Type.READING);
+        eventDao.save(event);
+        readingDao.save(reading);
 
         readings = readingDao.list(new DateTime(2016, 11, 1, 0, 0, 0));
         assertThat(readings.size(), is(3));
@@ -48,11 +54,6 @@ public class ReadingDaoIT {
         assertThat(readings.get(0).getGrams(), is(1012));
         assertThat(readings.get(0).getTotalGrams(), is(1200));
         assertThat(readings.get(0).getArticleCount(), is(1));
-        assertThat(readings.get(0).getDegreesC(), is(Temperature.valueOf("27.3")));
-        assertThat(readings.get(0).isLatest(), is(true));
-
-        assertThat(readings.get(1).isLatest(), is(false));
-        assertThat(readings.get(2).isLatest(), is(false));
     }
 
     @Test
@@ -60,30 +61,30 @@ public class ReadingDaoIT {
         List<Reading> readings = readingDao.list(new DateTime(2016, 11, 1, 0, 0, 0));
 
         assertThat(readings.size(), is(2));
-        assertThat(readings.get(0).getStreetPostingBox(), notNullValue());
-        assertThat(readings.get(1).getStreetPostingBox(), notNullValue());
-        assertThat(readings.get(0).getStreetPostingBox(), sameInstance(readings.get(1).getStreetPostingBox()));
+        assertThat(readings.get(0).getEvent(), notNullValue());
+        assertThat(readings.get(1).getEvent(), notNullValue());
+        assertThat(readings.get(0).getEvent().getStreetPostingBox(), sameInstance(readings.get(1).getEvent().getStreetPostingBox()));
 
-        assertThat(readings.get(0).getStreetPostingBox().getReadings(), is(readings));
+        assertThat(readings.get(0).getEvent().getStreetPostingBox().getReadings(), is(readings));
 
-        assertThat(readings.get(0).getStreetPostingBox().getImei(), is("359769034498003"));
-        assertThat(readings.get(0).getStreetPostingBox().getTimezone(), is(TimeZone.getTimeZone("Australia/Perth")));
-        assertThat(readings.get(0).getStreetPostingBox().getApiKey(), is("16fa2ee7-6614-4f62-bc16-a3c6fa189675"));
-        assertThat(readings.get(0).getStreetPostingBox().getPrevApiKey(), is("a73c5740-1cde-40a9-bde7-1d5e44761f77"));
-        assertThat(readings.get(0).getStreetPostingBox().getVersion(), is(1));
+        assertThat(readings.get(0).getEvent().getStreetPostingBox().getImei(), is("359769034498003"));
+        assertThat(readings.get(0).getEvent().getStreetPostingBox().getTimezone(), is(TimeZone.getTimeZone("Australia/Perth")));
+        assertThat(readings.get(0).getEvent().getStreetPostingBox().getApiKey(), is("16fa2ee7-6614-4f62-bc16-a3c6fa189675"));
+        assertThat(readings.get(0).getEvent().getStreetPostingBox().getPrevApiKey(), is("a73c5740-1cde-40a9-bde7-1d5e44761f77"));
+        assertThat(readings.get(0).getEvent().getStreetPostingBox().getVersion(), is(1));
 
-        assertThat(readings.get(0).getDateTime(), is(new DateTime(2016, 11, 1, 7, 1, 0)));
+        assertThat(readings.get(0).getEvent().getDateTime(), is(new DateTime(2016, 11, 1, 7, 1, 0)));
         assertThat(readings.get(0).getGrams(), is(11));
         assertThat(readings.get(0).getTotalGrams(), is(161));
         assertThat(readings.get(0).getArticleCount(), is(2));
-        assertThat(readings.get(0).getDegreesC(), is(Temperature.valueOf("21.4")));
-        assertThat(readings.get(0).isLatest(), is(true));
+        assertThat(readings.get(0).getEvent().getDegreesC(), is(Temperature.valueOf("21.4")));
+        assertThat(readings.get(0).getEvent().isLatestForType(), is(true));
 
-        assertThat(readings.get(1).getDateTime(), is(new DateTime(2016, 11, 1, 7, 0, 0)));
+        assertThat(readings.get(1).getEvent().getDateTime(), is(new DateTime(2016, 11, 1, 7, 0, 0)));
         assertThat(readings.get(1).getGrams(), is(10));
         assertThat(readings.get(1).getTotalGrams(), is(150));
         assertThat(readings.get(1).getArticleCount(), is(1));
-        assertThat(readings.get(1).getDegreesC(), is(Temperature.valueOf("21.3")));
-        assertThat(readings.get(1).isLatest(), is(false));
+        assertThat(readings.get(1).getEvent().getDegreesC(), is(Temperature.valueOf("21.3")));
+        assertThat(readings.get(1).getEvent().isLatestForType(), is(false));
     }
 }

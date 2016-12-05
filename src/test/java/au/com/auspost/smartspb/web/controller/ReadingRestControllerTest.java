@@ -1,6 +1,7 @@
 package au.com.auspost.smartspb.web.controller;
 
 import au.com.auspost.smartspb.dao.ReadingDao;
+import au.com.auspost.smartspb.domain.Event;
 import au.com.auspost.smartspb.domain.Reading;
 import au.com.auspost.smartspb.domain.StreetPostingBox;
 import au.com.auspost.smartspb.domain.Temperature;
@@ -108,8 +109,10 @@ public class ReadingRestControllerTest {
         spb.setId(1);
         spb.setTimezone(TimeZone.getTimeZone("Australia/Perth"));
 
-        readings.add(new Reading(2, spb, new DateTime(2016, 11, 1, 7, 0, 0), 30, 150, 2, Temperature.valueOf("22.3")));
-        readings.add(new Reading(1, spb, new DateTime(2016, 11, 1, 6, 59, 0), 10, 120, 1, Temperature.valueOf("22.1")));
+        Event e2 = new Event(2, spb, Event.Type.READING, new DateTime(2016, 11, 1, 7, 0, 0), Temperature.valueOf("22.3"), true);
+        readings.add(new Reading(2, e2, 30, 150, 2));
+        Event e1 = new Event(1, spb, Event.Type.READING, new DateTime(2016, 11, 1, 6, 59, 0), Temperature.valueOf("22.1"), false);
+        readings.add(new Reading(1, e1, 10, 120, 1));
 
         return readings;
     }

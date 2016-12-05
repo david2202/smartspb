@@ -1,10 +1,7 @@
 package au.com.auspost.smartspb.dao;
 
 
-import au.com.auspost.smartspb.domain.LatLong;
-import au.com.auspost.smartspb.domain.Reading;
-import au.com.auspost.smartspb.domain.StreetPostingBox;
-import au.com.auspost.smartspb.domain.Temperature;
+import au.com.auspost.smartspb.domain.*;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +20,19 @@ import java.util.TimeZone;
 public class StreetPostingBoxDao {
     private static final String SQL_COLUMNS = "spb.id AS s_id, spb.imei, spb.timezone, spb.api_key, spb.prev_api_key, " +
             "spb.address, spb.postcode, spb.latitude, spb.longitude, spb.version, " +
-            "r.id AS r_id, r.date_time, r.grams, r.total_grams, r.article_count, r.degrees_c, r.latest_ind ";
+            "e.id AS e_id, e.type_cd, e.date_time, e.degrees_c, e.latest_ind, " +
+            "r.id AS r_id, r.grams, r.total_grams, r.article_count ";
     private static final String SQL_LOAD_BY_IMEI =
-            "SELECT  " + SQL_COLUMNS +
+            "SELECT " + SQL_COLUMNS +
                     "FROM street_posting_box spb " +
-                    "LEFT OUTER JOIN reading r ON r.street_posting_box_id = spb.id AND r.latest_ind = true " +
-                    "WHERE imei = :imei;";
+                    "LEFT OUTER JOIN event e ON e.street_posting_box_id = spb.id AND e.type_cd = :typeCd AND e.latest_ind = true " +
+                    "LEFT OUTER JOIN reading r ON r.event_id = e.id " +
+                    "WHERE imei = :imei";
     private static final String SQL_LIST =
-            "SELECT  " + SQL_COLUMNS  +
+            "SELECT " + SQL_COLUMNS  +
                     "FROM street_posting_box spb " +
-                    "LEFT OUTER JOIN reading r ON r.street_posting_box_id = spb.id AND r.latest_ind = true ";
+                    "LEFT OUTER JOIN event e ON e.street_posting_box_id = spb.id AND e.type_cd = :typeCd AND e.latest_ind = true " +
+                    "LEFT OUTER JOIN reading r ON r.event_id = e.id";
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -46,7 +46,9 @@ public class StreetPostingBoxDao {
     }
 
     public StreetPostingBox load(String imei) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("imei", imei);
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("imei", imei)
+                .addValue("typeCd", Event.Type.READING.toString());
         return jdbcTemplate.queryForObject(SQL_LOAD_BY_IMEI, parameterSource, (resultSet, i) -> {
             StreetPostingBox spb = mapResultSet(resultSet);
             return spb;
@@ -54,7 +56,8 @@ public class StreetPostingBoxDao {
     }
 
     public List<StreetPostingBox> list() {
-        return jdbcTemplate.query(SQL_LIST, (resultSet, i) -> {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("typeCd", Event.Type.READING.toString());
+        return jdbcTemplate.query(SQL_LIST, parameterSource, (resultSet, i) -> {
             StreetPostingBox spb = mapResultSet(resultSet);
             return spb;
         });
@@ -72,15 +75,19 @@ public class StreetPostingBoxDao {
         spb.setLatLong(new LatLong(resultSet.getBigDecimal("latitude"), resultSet.getBigDecimal("longitude")));
         resultSet.getInt("r_id");
         if (!resultSet.wasNull()) {
-            Reading r = new Reading(
-                    resultSet.getInt("r_id"),
+            Event e = new Event(
+                    resultSet.getInt("e_id"),
                     spb,
+                    Event.Type.valueOf(resultSet.getString("type_cd")),
                     new DateTime(resultSet.getTimestamp("date_time"), DateTimeZone.forTimeZone(TimeZone.getDefault())),
-                    resultSet.getInt("grams"),
-                    resultSet.getInt("total_grams"),
-                    resultSet.getInt("article_count"),
                     new Temperature(resultSet.getBigDecimal("degrees_c")),
                     resultSet.getBoolean("latest_ind"));
+            Reading r = new Reading(
+                    resultSet.getInt("r_id"),
+                    e,
+                    resultSet.getInt("grams"),
+                    resultSet.getInt("total_grams"),
+                    resultSet.getInt("article_count"));
             spb.setLatestReading(r);
             spb.addReading(r);
         }

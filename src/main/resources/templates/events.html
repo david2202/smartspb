@@ -2,30 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout"
-      th:with="currentPage='readings'">
+      th:with="currentPage='events'">
 <head>
     <script th:src="@{/scripts/sockjs-0.3.4.js}" src="../static/scripts/sockjs-0.3.4.js"></script>
     <script th:src="@{/scripts/stomp.js}" src="../static/scripts/stomp.js"></script>
 
-    <title>Readings</title>
+    <title>Events</title>
     <script th:inline="javascript">
         /*<![CDATA[*/
         jQuery(document).ready(function ($) {
             if ($( window ).width() < 800) {
-                $("#readings th[data-column-id='localDateTime']").attr("data-visible", "false");
-                $("#readings th[data-column-id='localTimeZone']").attr("data-visible", "false");
-                $("#readings th[data-column-id='grams']").attr("data-visible", "false");
-                $("#readings th[data-column-id='degreesC']").attr("data-visible", "false");
+                $("#events th[data-column-id='localDateTime']").attr("data-visible", "false");
+                $("#events th[data-column-id='localTimeZone']").attr("data-visible", "false");
+                $("#events th[data-column-id='grams']").attr("data-visible", "false");
+                $("#events th[data-column-id='degreesC']").attr("data-visible", "false");
             }
-            $("#readings").bootgrid({
+            $("#events").bootgrid({
                 navigation: 3,
                 formatters: {
                         "dateTime": function(column, row) {
                             return row.dateTime;
-                        }
+                        },
+                        "articleCount": function(column, row) {
+                            if (row.type === "READING") {
+                                return row.articleCount;
+                            } else {
+                                return "";
+                            }
+                        },
+                        "grams": function(column, row) {
+                            if (row.type === "READING") {
+                                return row.grams;
+                            } else {
+                                return "";
+                            }
+                        },
+                        "totalGrams": function(column, row) {
+                            if (row.type === "READING") {
+                                return row.totalGrams;
+                            } else {
+                                return "";
+                            }
+                        },
                     }
             });
-            retrieveReadings();
+            retrieveEvents();
             connect();
         });
 
@@ -36,8 +57,8 @@
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/readingsUpdate', function(readings) {
-                    retrieveReadings();
+                stompClient.subscribe('/topic/eventsUpdate', function(readings) {
+                    retrieveEvents();
                 });
             });
         }
@@ -50,18 +71,18 @@
             console.log("Disconnected");
         }
 
-        function retrieveReadings() {
+        function retrieveEvents() {
             var yesterday = new Date(new Date().getTime() - (1*24*60*60*1000));
 
             var dd = ('0' + yesterday.getDate()).slice(-2);
             var mm = ('0' + (yesterday.getMonth() + 1)).slice(-2);
             var yyyy = yesterday.getFullYear();
 
-            $.get("/rest/api/readings",
+            $.get("/rest/api/events",
                  { dateTime: yyyy + '-' + mm + '-'+ dd + " 00:00:00",
                  timeZone: new Date().getTimezoneOffset() * -1 },
                 function(data) {
-                    $("#readings")
+                    $("#events")
                         .bootgrid("clear")
                         .bootgrid("append", data);
                 });
@@ -74,16 +95,17 @@
     <div layout:fragment="content" class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <table id="readings" class="table table-condensed table-hover table-striped">
+                <table id="events" class="table table-condensed table-hover table-striped">
                     <thead>
                     <tr>
                         <th data-column-id="address">Address</th>
+                        <th data-column-id="type">Type</th>
                         <th data-column-id="dateTime" data-formatter="dateTime">Time</th>
                         <th data-column-id="localDateTime">Local Time</th>
                         <th data-column-id="localTimeZone">Local Time Zone</th>
-                        <th data-column-id="articleCount" data-type="numeric" data-align="right" data-header-align="right">Articles</th>
-                        <th data-column-id="grams" data-type="numeric" data-align="right" data-header-align="right">Grams</th>
-                        <th data-column-id="totalGrams" data-type="numeric" data-align="right" data-header-align="right">Total Grams</th>
+                        <th data-column-id="articleCount" data-formatter="articleCount" data-type="numeric" data-align="right" data-header-align="right">Articles</th>
+                        <th data-column-id="grams" data-formatter="grams" data-type="numeric" data-align="right" data-header-align="right">Grams</th>
+                        <th data-column-id="totalGrams" data-formatter="totalGrams" data-type="numeric" data-align="right" data-header-align="right">Total Grams</th>
                         <th data-column-id="degreesC" data-type="numeric" data-align="right" data-header-align="right">Temperature</th>
                     </tr>
                     </thead>

@@ -40,11 +40,11 @@ public class StreetPostingBoxDaoIT {
         assertThat(spb.getLatLong().getLatitude(), is(BigDecimal.valueOf(-31540410, 6)));
         assertThat(spb.getLatLong().getLongitude(), is(BigDecimal.valueOf(115651000, 6)));
         assertThat(spb.getLatestReading(), is(notNullValue()));
-        assertThat(spb.getLatestReading().isLatest(), is(true));
+        assertThat(spb.getLatestReading().getEvent().isLatestForType(), is(true));
         assertThat(spb.getLatestReading().getGrams(), is(11));
         assertThat(spb.getLatestReading().getTotalGrams(), is(161));
         assertThat(spb.getLatestReading().getArticleCount(), is(2));
-        assertThat(spb.getLatestReading().getDegreesC(), is(new Temperature(BigDecimal.valueOf(214, 1))));
+        assertThat(spb.getLatestReading().getEvent().getDegreesC(), is(new Temperature(BigDecimal.valueOf(214, 1))));
         assertThat(spb.getApiKey(), is("16fa2ee7-6614-4f62-bc16-a3c6fa189675"));
         assertThat(spb.getPrevApiKey(), is("a73c5740-1cde-40a9-bde7-1d5e44761f77"));
         assertThat(spb.getVersion(), is(1));

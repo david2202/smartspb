@@ -156,7 +156,7 @@ databaseChangeLog:
     - changeSet:
         id: 1.0-2
         author: howed
-        comment: Create reading table
+        comment: Create event and reading tables
         changes:
         - createTable:
             tableName: event
@@ -176,15 +176,34 @@ databaseChangeLog:
                   foreignKeyName: fk_event_spb
                   references: street_posting_box(id)
             - column:
+                name: type_cd
+                type: varchar(20)
+                constraints:
+                  nullable: false
+            - column:
                 name: date_time
                 type: datetime
                 constraints:
                   nullable: false
             - column:
+                name: degrees_c
+                type: number(4, 1)
+            - column:
                 name: latest_ind
                 type: boolean
                 constraints:
                   nullable: false
+        - createIndex:
+            columns:
+            - column:
+                name: street_posting_box_id
+            - column:
+                name: type_cd
+            - column:
+                name: latest_ind
+            indexName: idx_event_01
+            tableName: event
+
         - createTable:
             tableName: reading
             columns:
@@ -217,15 +236,10 @@ databaseChangeLog:
                 type: int
                 constraints:
                   nullable: false
-            - column:
-                name: degrees_c
-                type: number(4, 1)
         - createIndex:
             columns:
             - column:
-                name: street_posting_box_id
-            - column:
-                name: latest_ind
+                name: event_id
             indexName: idx_reading_01
             tableName: reading
 
@@ -233,26 +247,38 @@ databaseChangeLog:
         id: 1.0-2-dev
         author: howed
         context: "!(pdev OR ptest OR sdev OR stest OR prod)"
-        comment: Insert reading data for local development
+        comment: Insert event and reading data for local development
         changes:
         - insert:
-            tableName: reading
+            tableName: event
             columns:
             - column:
                 name: street_posting_box_id
                 value: 1
             - column:
+                name: type_cd
+                value: STARTUP
+            - column:
                 name: date_time
                 valueDate: "2016-11-01T07:00:00"
             - column:
-                name: grams
-                value: 10
+                name: degrees_c
+                value: 21.3
             - column:
-                name: total_grams
-                value: 150
+                name: latest_ind
+                value: true
+        - insert:
+            tableName: event
+            columns:
             - column:
-                name: article_count
+                name: street_posting_box_id
                 value: 1
+            - column:
+                name: type_cd
+                value: READING
+            - column:
+                name: date_time
+                valueDate: "2016-11-01T07:00:00"
             - column:
                 name: degrees_c
                 value: 21.3
@@ -263,11 +289,41 @@ databaseChangeLog:
             tableName: reading
             columns:
             - column:
+                name: event_id
+                value: 2
+            - column:
+                name: grams
+                value: 10
+            - column:
+                name: total_grams
+                value: 150
+            - column:
+                name: article_count
+                value: 1
+        - insert:
+            tableName: event
+            columns:
+            - column:
                 name: street_posting_box_id
                 value: 1
             - column:
+                name: type_cd
+                value: READING
+            - column:
                 name: date_time
                 valueDate: "2016-11-01T07:01:00"
+            - column:
+                name: degrees_c
+                value: 21.4
+            - column:
+                name: latest_ind
+                value: true
+        - insert:
+            tableName: reading
+            columns:
+            - column:
+                name: event_id
+                value: 3
             - column:
                 name: grams
                 value: 11
@@ -277,12 +333,6 @@ databaseChangeLog:
             - column:
                 name: article_count
                 value: 2
-            - column:
-                name: degrees_c
-                value: 21.4
-            - column:
-                name: latest_ind
-                value: true
 
     - changeSet:
         id: 1.0-3
