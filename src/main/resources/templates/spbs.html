@@ -91,7 +91,7 @@
                         .bootgrid("append", spbs);
                     if (typeof map == 'undefined') {
                         map = new google.maps.Map(document.getElementById('map'), {
-                            zoom: 10,
+                            zoom: 14,
                             center: spbs[0].latLong
                         });
                     }
@@ -108,7 +108,7 @@
                                 position: spbs[i].latLong,
                                 map: map,
                                 icon: icon,
-                                title: spbs[i].address + " " + spbs[i].totalGrams + " grams"
+                                title: spbs[i].address + ", " + spbs[i].articleCount + " articles, " + spbs[i].totalGrams + " grams"
                             });
                             markers[spbs[i].id] = marker;
                         }
@@ -121,6 +121,7 @@
                                 icon = [[@{/images/postBoxGreen.gif}]];
                             }
                             markers[spbs[i].id].setIcon(icon);
+                            markers[spbs[i].id].setTitle(spbs[i].address + ", " + spbs[i].articleCount + " articles, " + spbs[i].totalGrams + " grams");
                         }
                     }
                 });

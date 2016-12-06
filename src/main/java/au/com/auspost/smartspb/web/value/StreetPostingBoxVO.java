@@ -46,7 +46,11 @@ public class StreetPostingBoxVO {
         this.address = streetPostingBox.getAddress();
         this.postCode = streetPostingBox.getPostCode();
         this.latLong = new LatLongVO(streetPostingBox.getLatLong());
-        if (streetPostingBox.getLatestReading() != null) {
+        if (streetPostingBox.getLatestReading() == null) {
+            this.grams = 0;
+            this.totalGrams = 0;
+            this.articleCount = 0;
+        } else {
             if (timeZone == null) {
                 this.lastReadingDateTime = streetPostingBox.getLatestReading().getEvent().getDateTime().toString(DATE_FORMAT);
             } else {
