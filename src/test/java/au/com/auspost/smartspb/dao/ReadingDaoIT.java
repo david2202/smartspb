@@ -68,7 +68,7 @@ public class ReadingDaoIT {
         assertThat(readings.get(0).getEvent().getStreetPostingBox().getReadings(), is(readings));
 
         assertThat(readings.get(0).getEvent().getStreetPostingBox().getImei(), is("359769034498003"));
-        assertThat(readings.get(0).getEvent().getStreetPostingBox().getTimezone(), is(TimeZone.getTimeZone("Australia/Perth")));
+        assertThat(readings.get(0).getEvent().getStreetPostingBox().getTimezone(), is(TimeZone.getTimeZone("Australia/Hobart")));
         assertThat(readings.get(0).getEvent().getStreetPostingBox().getApiKey(), is("16fa2ee7-6614-4f62-bc16-a3c6fa189675"));
         assertThat(readings.get(0).getEvent().getStreetPostingBox().getPrevApiKey(), is("a73c5740-1cde-40a9-bde7-1d5e44761f77"));
         assertThat(readings.get(0).getEvent().getStreetPostingBox().getVersion(), is(1));
