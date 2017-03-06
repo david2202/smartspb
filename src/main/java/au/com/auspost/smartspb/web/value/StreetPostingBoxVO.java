@@ -3,8 +3,7 @@ package au.com.auspost.smartspb.web.value;
 import au.com.auspost.smartspb.domain.RemoteConfiguration;
 import au.com.auspost.smartspb.domain.StreetPostingBox;
 import au.com.auspost.smartspb.domain.Temperature;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import org.joda.time.DateTime;
+import org.apache.commons.collections4.CollectionUtils;
 import org.joda.time.DateTimeZone;
 
 import java.util.Properties;
@@ -18,7 +17,7 @@ public class StreetPostingBoxVO {
     private Integer version;
     private String apiKey;
     private String address;
-    private Integer postCode;
+    private Integer postcode;
     private LatLongVO latLong;
     private String lastReadingDateTime;
     private Integer grams;
@@ -35,7 +34,7 @@ public class StreetPostingBoxVO {
 
     public StreetPostingBoxVO(StreetPostingBox streetPostingBox, RemoteConfiguration remoteConfiguration, String timeZone) {
         copy(streetPostingBox, timeZone);
-        this.config = remoteConfiguration.getProperties();
+        this.config = remoteConfiguration.getPropertiesAsProperties();
     }
 
     private void copy(StreetPostingBox streetPostingBox, String timeZone) {
@@ -44,9 +43,9 @@ public class StreetPostingBoxVO {
         this.version = streetPostingBox.getVersion();
         this.apiKey = streetPostingBox.getApiKey();
         this.address = streetPostingBox.getAddress();
-        this.postCode = streetPostingBox.getPostCode();
+        this.postcode = streetPostingBox.getPostcode();
         this.latLong = new LatLongVO(streetPostingBox.getLatLong());
-        if (streetPostingBox.getLatestReading() == null) {
+        if (CollectionUtils.isEmpty(streetPostingBox.getReadings())) {
             this.grams = 0;
             this.totalGrams = 0;
             this.articleCount = 0;
@@ -87,8 +86,8 @@ public class StreetPostingBoxVO {
         return address;
     }
 
-    public Integer getPostCode() {
-        return postCode;
+    public Integer getPostcode() {
+        return postcode;
     }
 
     public LatLongVO getLatLong() {

@@ -15,7 +15,7 @@ public class StreetPostingBoxVO {
         this.imei = streetPostingBox.getImei();
         this.version = streetPostingBox.getVersion();
         this.apiKey = streetPostingBox.getApiKey();
-        this.config = remoteConfiguration.getProperties();
+        this.config = remoteConfiguration.getPropertiesAsProperties();
     }
 
     public StreetPostingBoxVO(StreetPostingBox streetPostingBox) {

@@ -2,6 +2,7 @@ package au.com.auspost.smartspb.web.controller.rest.remote;
 
 import au.com.auspost.smartspb.domain.Reading;
 import au.com.auspost.smartspb.domain.RemoteConfiguration;
+import au.com.auspost.smartspb.domain.RemoteConfigurationProperty;
 import au.com.auspost.smartspb.domain.StreetPostingBox;
 import au.com.auspost.smartspb.domain.Temperature;
 import au.com.auspost.smartspb.service.ReadingService;
@@ -23,18 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RemoteReadingRestController.class)
@@ -84,7 +79,7 @@ public class RemoteReadingRestControllerTest {
                 .andExpect(jsonPath("$.configVersion", is(remoteConfiguration.getVersion())))
                 .andExpect(jsonPath("$.spbVersion", is(spb.getVersion())));
         verify(streetPostingBoxService).load(spb.getImei());
-        verify(readingService).save(any(List.class));
+        verify(streetPostingBoxService).save(any(StreetPostingBox.class));
         verify(remoteConfigurationService).load();
         verify(messagingTemplate).convertAndSend(eq("/topic/readingsUpdate"), any(List.class));
     }
@@ -125,7 +120,7 @@ public class RemoteReadingRestControllerTest {
 
     private RemoteConfiguration makeRemoteConfiguration() {
         RemoteConfiguration rc = new RemoteConfiguration(13);
-        rc.getProperties().setProperty("property", "value");
+        rc.addProperty(new RemoteConfigurationProperty("property", "value"));
         return rc;
     }
 }

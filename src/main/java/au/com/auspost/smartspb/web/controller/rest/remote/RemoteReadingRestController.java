@@ -13,9 +13,13 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -47,14 +51,13 @@ public class RemoteReadingRestController {
             throw new UnauthorisedAccessException();
         }
 
-        List<Reading> readings = new ArrayList<>();
         for (ReadingVO readingVO : readingVOs) {
             DateTime readingDateTime = new DateTime().minusSeconds(readingVO.getSecondsAgo());
             Reading reading = new Reading(spb, readingDateTime, readingVO.getGrams(), readingVO.getTotalGrams(), readingVO.getArticleCount(), readingVO.getDegreesC());
-            readings.add(reading);
+            spb.addReading(reading);
         }
-        readingService.save(readings);
 
+        streetPostingBoxService.save(spb);
         RemoteConfiguration remoteConfiguration = remoteConfigurationService.load();
         this.template.convertAndSend("/topic/readingsUpdate", readingVOs);
         return new ConfigVersionVO(spb, remoteConfiguration);

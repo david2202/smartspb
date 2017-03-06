@@ -669,11 +669,12 @@ databaseChangeLog:
         comment: Create remote_config table
         changes:
         - createTable:
-            tableName: remote_config
+            tableName: remote_configuration
             columns:
             - column:
                 name: id
                 type: int
+                autoIncrement: true
                 constraints:
                     primaryKey: true
                     nullable: false
@@ -684,14 +685,23 @@ databaseChangeLog:
                     nullable: false
 
         - createTable:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
-                name: remote_config_id
+                name: id
+                type: int
+                autoIncrement: true
+                constraints:
+                    primaryKey: true
+                    nullable: false
+            - column:
+                name: remote_configuration_id
                 type: int
                 constraints:
                     primaryKey: true
                     nullable: false
+                    foreignKeyName: fk_remote_config_prop_remote_config
+                    references: remote_configuration(id)
             - column:
                 name: name
                 type: varchar(32)
@@ -710,7 +720,7 @@ databaseChangeLog:
                     nullable: true
 
         - insert:
-            tableName: remote_config
+            tableName: remote_configuration
             columns:
             - column:
                 name: id
@@ -719,10 +729,10 @@ databaseChangeLog:
                 name: version
                 value: 1
         - insert:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
-                name: remote_config_id
+                name: remote_configuration_id
                 value: 1
             - column:
                 name: name
@@ -731,10 +741,10 @@ databaseChangeLog:
                 name: description
                 value: The base URL for the remote REST web services.
         - insert:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
-                name: remote_config_id
+                name: remote_configuration_id
                 value: 1
             - column:
                 name: name
@@ -743,10 +753,10 @@ databaseChangeLog:
                 name: description
                 value: The number of seconds between readings of the SPB weight.
         - insert:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
-                name: remote_config_id
+                name: remote_configuration_id
                 value: 1
             - column:
                 name: name
@@ -758,27 +768,27 @@ databaseChangeLog:
     - changeSet:
         id: 1.0-4-dev
         author: howed
-        comment: Insert remote_config data for local development
+        comment: Insert remote_configuration data for local development
         context: "!(infra OR pdev OR ptest OR sdev OR stest OR prod)"
         changes:
         - update:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
                 name: value
                 value: http://localhost:8080/rest/remote
-            where: remote_config_id = 1 AND name='url'
+            where: remote_configuration_id = 1 AND name='url'
         - update:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
                 name: value
                 value: 8
-            where: remote_config_id = 1 AND name='readingSeconds'
+            where: remote_configuration_id = 1 AND name='readingSeconds'
         - update:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
                 name: value
                 value: 8
-            where: remote_config_id = 1 AND name='sleepSeconds'
+            where: remote_configuration_id = 1 AND name='sleepSeconds'

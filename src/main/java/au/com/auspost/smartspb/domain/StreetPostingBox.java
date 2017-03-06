@@ -1,24 +1,47 @@
 package au.com.auspost.smartspb.domain;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
+import org.hibernate.annotations.BatchSize;
 
-import java.math.BigDecimal;
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Version;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 
+@Entity
 public class StreetPostingBox {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
     private String imei;
     private TimeZone timezone;
+
     private String apiKey;
     private String prevApiKey;
     private String address;
-    private Integer postCode;
+    private Integer postcode;
+
+    @Embedded
     private LatLong latLong;
-    private Reading latestReading;
+
+    @OneToMany(mappedBy = "streetPostingBox", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @BatchSize(size = 20)
+    @OrderBy("dateTime DESC")
     private List<Reading> readings = new ArrayList<>();
+
+    @Version
     private Integer version;
 
     public StreetPostingBox newApiKey() {
@@ -34,6 +57,22 @@ public class StreetPostingBox {
             return true;
         }
         return false;
+    }
+
+    public Reading getLatestReading() {
+        if (CollectionUtils.isEmpty(getReadings())) {
+            return null;
+        } else {
+            return getReadings().get(0);
+        }
+    }
+
+    public void clearLatest() {
+        for (Reading r:getReadings()) {
+            if (r.isLatest()) {
+                r.setLatest(true);
+            }
+        }
     }
 
     public Integer getId() {
@@ -88,12 +127,12 @@ public class StreetPostingBox {
         this.address = address;
     }
 
-    public Integer getPostCode() {
-        return postCode;
+    public Integer getPostcode() {
+        return postcode;
     }
 
-    public void setPostCode(Integer postCode) {
-        this.postCode = postCode;
+    public void setPostcode(Integer postcode) {
+        this.postcode = postcode;
     }
 
     public LatLong getLatLong() {
@@ -104,26 +143,16 @@ public class StreetPostingBox {
         this.latLong = latLong;
     }
 
-    public Reading getLatestReading() {
-        return latestReading;
-    }
-
-    public void setLatestReading(Reading latestReading) {
-        this.latestReading = latestReading;
-    }
-
     public List<Reading> getReadings() {
-        return readings;
+        return Collections.unmodifiableList(readings);
     }
 
     public StreetPostingBox addReading(Reading reading) {
+        if (readings == null) {
+            readings = new ArrayList<>();
+        }
         readings.add(reading);
-        latestReading = reading;
         return this;
-    }
-
-    public void setReadings(List<Reading> readings) {
-        this.readings = readings;
     }
 
     public Integer getVersion() {

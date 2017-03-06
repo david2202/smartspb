@@ -3,15 +3,40 @@ package au.com.auspost.smartspb.domain;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "reading")
 public class Reading {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "street_posting_box_id")
     private StreetPostingBox streetPostingBox;
+
     private DateTime dateTime;
+
     private Integer grams;
     private Integer totalGrams;
     private Integer articleCount;
+    @Column(name = "degrees_c")
     private Temperature degreesC;
+
+    @Column(name = "latest_ind")
     private Boolean latest;
+
+    public Reading() {
+        // Needed for Hibernate
+    }
 
     public Reading(Integer id, StreetPostingBox streetPostingBox, DateTime dateTime, Integer grams, Integer totalGrams, Integer articleCount, Temperature degreesC) {
         this.id = id;
@@ -55,9 +80,8 @@ public class Reading {
         this.latest = latest;
     }
 
-    public Reading makeLatest() {
-        this.latest = true;
-        return this;
+    public void setLatest(boolean latest) {
+        this.latest = latest;
     }
 
     public Integer getId() {
