@@ -215,7 +215,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 624356236235621
+                value: 359769035438750
             - column:
                 name: timezone
                 value: Australia/Hobart
