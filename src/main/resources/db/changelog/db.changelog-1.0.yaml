@@ -95,7 +95,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 623233982383836
+                value: 359769034498748
             - column:
                 name: timezone
                 value: Australia/Hobart
@@ -125,7 +125,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 234924324783982
+                value: 359769035436853
             - column:
                 name: timezone
                 value: Australia/Hobart
@@ -155,7 +155,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 239098243674342
+                value: 359769035436051
             - column:
                 name: timezone
                 value: Australia/Hobart
@@ -185,7 +185,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 782342432432432
+                value: 359769035438966
             - column:
                 name: timezone
                 value: Australia/Hobart
@@ -215,7 +215,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 624356236235621
+                value: 359769035438750
             - column:
                 name: timezone
                 value: Australia/Hobart
