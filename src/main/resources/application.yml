@@ -9,6 +9,17 @@ spring:
         serialization:
             write_dates_as_timestamps: false
             write_dates_with_zone_id: true
+    jpa:
+        properties:
+            hibernate:
+                hbm2ddl:
+                    auto: none
+                show_sql: true
+                format_sql: true
+                use_sql_comments: true
+            jadira:
+                usertype:
+                    autoRegisterUserTypes: true
 ---
 spring:
     profiles: dev

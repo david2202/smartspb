@@ -1,6 +1,7 @@
 package au.com.auspost.smartspb.web.controller.rest.remote;
 
 import au.com.auspost.smartspb.domain.RemoteConfiguration;
+import au.com.auspost.smartspb.domain.RemoteConfigurationProperty;
 import au.com.auspost.smartspb.domain.StreetPostingBox;
 import au.com.auspost.smartspb.service.RemoteConfigurationService;
 import au.com.auspost.smartspb.service.StreetPostingBoxService;
@@ -15,14 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RemoteStreetPostingBoxRestController.class)
@@ -55,7 +52,7 @@ public class RemoteStreetPostingBoxRestControllerTest {
                 .andExpect(jsonPath("$.imei", is(spb.getImei())))
                 .andExpect(jsonPath("$.version", is(spb.getVersion())))
                 .andExpect(jsonPath("$.apiKey", is(spb.getApiKey())))
-                .andExpect(jsonPath("$.config.property", is(remoteConfiguration.getProperties().get("property"))));
+                .andExpect(jsonPath("$.config.property", is(remoteConfiguration.getPropertiesAsProperties().get("property"))));
     }
 
     @Test
@@ -82,7 +79,7 @@ public class RemoteStreetPostingBoxRestControllerTest {
 
     private RemoteConfiguration makeRemoteConfiguration() {
         RemoteConfiguration rc = new RemoteConfiguration(13);
-        rc.getProperties().setProperty("property", "value");
+        rc.addProperty(new RemoteConfigurationProperty("property", "value"));
         return rc;
     }
 }

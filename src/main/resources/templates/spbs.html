@@ -16,7 +16,7 @@
 
         jQuery(document).ready(function ($) {
             if ($( window ).width() < 768) {
-                $("#spbs th[data-column-id='postCode']").attr("data-visible", "false");
+                $("#spbs th[data-column-id='postcode']").attr("data-visible", "false");
                 $("#spbs th[data-column-id='grams']").attr("data-visible", "false");
                 $("#spbs th[data-column-id='totalGrams']").attr("data-visible", "false");
                 $("#spbs th[data-column-id='degreesC']").attr("data-visible", "false");
@@ -151,12 +151,12 @@
                 <thead>
                 <tr>
                     <th data-column-id="address">Address</th>
-                    <th data-column-id="postCode" data-type="numeric" data-align="right" data-header-align="right">Post Code</th>
-                    <th data-column-id="lastReadingDateTime" data-width="15%">Last Reading Time</th>
-                    <th data-column-id="grams" data-type="numeric" data-formatter="grams" data-align="right" data-header-align="right" data-width="10%">Grams</th>
-                    <th data-column-id="totalGrams" data-type="numeric" data-formatter="totalGrams" data-align="right" data-header-align="right" data-width="10%">Total Grams</th>
-                    <th data-column-id="articleCount" data-type="numeric" data-formatter="articleCount" data-align="right" data-header-align="right" data-width="10%">Articles</th>
-                    <th data-column-id="degreesC" data-type="numeric" data-formatter="degreesC" data-align="right" data-header-align="right" data-width="10%">Temperature</th>
+                    <th data-column-id="postcode" data-type="numeric" data-align="right" data-header-align="right">Post Code</th>
+                    <th data-column-id="lastReadingDateTime" data-width="15%" data-searchable="false">Last Reading Time</th>
+                    <th data-column-id="grams" data-type="numeric" data-formatter="grams" data-align="right" data-header-align="right" data-width="10%" data-searchable="false">Grams</th>
+                    <th data-column-id="totalGrams" data-type="numeric" data-formatter="totalGrams" data-align="right" data-header-align="right" data-width="10%" data-searchable="false">Total Grams</th>
+                    <th data-column-id="articleCount" data-type="numeric" data-formatter="articleCount" data-align="right" data-header-align="right" data-width="10%" data-searchable="false">Articles</th>
+                    <th data-column-id="degreesC" data-type="numeric" data-formatter="degreesC" data-align="right" data-header-align="right" data-width="10%" data-searchable="false">Temperature</th>
                 </tr>
                 </thead>
                 <tbody>

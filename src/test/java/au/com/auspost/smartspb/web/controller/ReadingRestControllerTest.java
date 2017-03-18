@@ -1,6 +1,6 @@
 package au.com.auspost.smartspb.web.controller;
 
-import au.com.auspost.smartspb.dao.ReadingDao;
+import au.com.auspost.smartspb.dao.ReadingCrudRepository;
 import au.com.auspost.smartspb.domain.Reading;
 import au.com.auspost.smartspb.domain.StreetPostingBox;
 import au.com.auspost.smartspb.domain.Temperature;
@@ -21,13 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ReadingRestController.class)
@@ -36,11 +33,11 @@ public class ReadingRestControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private ReadingDao readingDao;
+    private ReadingCrudRepository readingCrudRepository;
 
     @Test
     public void testGet() throws Exception {
-        when(readingDao.list(new DateTime(2016, 10, 31, 0, 0, 0))).thenReturn(makeReadings());
+        when(readingCrudRepository.findByDateTimeGreaterThanOrderByDateTimeDesc(new DateTime(2016, 10, 31, 0, 0, 0))).thenReturn(makeReadings());
 
         mvc.perform(get("/rest/api/readings")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -71,7 +68,7 @@ public class ReadingRestControllerTest {
 
     @Test
     public void testGetWithTimeZone() throws Exception {
-        when(readingDao.list(new DateTime(2016, 10, 31, 0, 0, 0))).thenReturn(makeReadings());
+        when(readingCrudRepository.findByDateTimeGreaterThanOrderByDateTimeDesc(new DateTime(2016, 10, 31, 0, 0, 0))).thenReturn(makeReadings());
 
         mvc.perform(get("/rest/api/readings")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

@@ -12,20 +12,16 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RemoteConfigurationDaoIT {
+public class RemoteConfigurationRepositoryIT {
 
     @Autowired
-    private RemoteConfigurationDao remoteConfigurationDao;
+    private RemoteConfigurationCrudRepository remoteConfigurationCrudRepository;
 
     @Test
     public void testLoad() {
-        RemoteConfiguration rc = remoteConfigurationDao.load();
+        RemoteConfiguration rc = remoteConfigurationCrudRepository.findOne(1);
 
         assertThat(rc.getVersion(), is(1));
         assertThat(rc.getProperties().size(), is(3));
-
-        assertThat(rc.getProperties().getProperty("url"), is("http://localhost:8080/rest/remote"));
-        assertThat(rc.getProperties().getProperty("readingSeconds"), is("8"));
-        assertThat(rc.getProperties().getProperty("sleepSeconds"), is("8"));
     }
 }
