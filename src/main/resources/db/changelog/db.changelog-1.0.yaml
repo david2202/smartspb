@@ -65,7 +65,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 359769034498003
+                value: 359769035439428
             - column:
                 name: timezone
                 value: Australia/Hobart
@@ -245,7 +245,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 243989823982283
+                value: 359769035442968
             - column:
                 name: timezone
                 value: Australia/Hobart
@@ -275,7 +275,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 823461542426743
+                value: 359769035445631
             - column:
                 name: timezone
                 value: Australia/Hobart
@@ -305,7 +305,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 982398234737243
+                value: 359769035445110
             - column:
                 name: timezone
                 value: Australia/Hobart
@@ -447,6 +447,36 @@ databaseChangeLog:
             - column:
                 name: longitude
                 value: 147.388683
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769034498003
+            - column:
+                name: timezone
+                value: Australia/Melbourne
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 89 Austin Ave, McCrae
+            - column:
+                name: postcode
+                value: 3938
+            - column:
+                name: latitude
+                value: -38.3656534
+            - column:
+                name: longitude
+                value: 144.92174
             - column:
                 name: version
                 value: 1
