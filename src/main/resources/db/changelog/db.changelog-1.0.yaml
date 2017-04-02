@@ -335,7 +335,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 984367432311212
+                value: 359769035436986
             - column:
                 name: timezone
                 value: Australia/Hobart
@@ -365,7 +365,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 658594935204638
+                value: 359769035437489
             - column:
                 name: timezone
                 value: Australia/Hobart
