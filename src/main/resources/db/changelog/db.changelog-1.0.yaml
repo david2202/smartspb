@@ -65,7 +65,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 359769035439428
+                value: 359769035444840
             - column:
                 name: timezone
                 value: Australia/Hobart
@@ -425,7 +425,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 186435438230753
+                value: 359769035436515
             - column:
                 name: timezone
                 value: Australia/Hobart
@@ -450,6 +450,7 @@ databaseChangeLog:
             - column:
                 name: version
                 value: 1
+
         - insert:
             tableName: street_posting_box
             columns:
@@ -477,6 +478,96 @@ databaseChangeLog:
             - column:
                 name: longitude
                 value: 144.92174
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035439428
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 80 Collins St, Melbourne
+            - column:
+                name: postcode
+                value: 3000
+            - column:
+                name: latitude
+                value: -37.8136
+            - column:
+                name: longitude
+                value: 144.971
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035442851
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 111 Bourke St, Melbourne
+            - column:
+                name: postcode
+                value: 3000
+            - column:
+                name: latitude
+                value: -37.8127
+            - column:
+                name: longitude
+                value: 144.970000
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035435913
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 60 Collins St, Melbourne
+            - column:
+                name: postcode
+                value: 3000
+            - column:
+                name: latitude
+                value: -37.8138
+            - column:
+                name: longitude
+                value: 144.9720
             - column:
                 name: version
                 value: 1
