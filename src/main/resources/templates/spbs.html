@@ -13,6 +13,7 @@
         var map;
         var spbs;
         var markers;
+        var pageLoadedTime = Date.now();
 
         jQuery(document).ready(function ($) {
             if ($( window ).width() < 768) {
@@ -25,6 +26,9 @@
             }
             $("#spbs").bootgrid({
                 navigation: 3,
+                selection: true,
+                rowSelect: true,
+                multiSelect: false,
                 formatters: {
                         "grams": function(column, row) {
                             if (row.grams == null) {
@@ -54,10 +58,24 @@
                                 return row.degreesC;
                             }
                         },
-                    }
+                }
+            })
+            .on("selected.rs.jquery.bootgrid", function(event, selectedRows) {
+                map.setCenter({ lat: selectedRows[0].latLong.lat, lng: selectedRows[0].latLong.lng });
+                markers[selectedRows[0].id].setAnimation(google.maps.Animation.BOUNCE);
+            })
+            .on("deselected.rs.jquery.bootgrid", function(event, deselectedRows) {
+                markers[deselectedRows[0].id].setAnimation(null);
             });
             connect();
-            console.log($("#map").width());
+            setInterval(function() {
+                var minutesSinceLoaded = (Date.now() - pageLoadedTime) / 1000 / 60;
+                for(var i = 0; i < spbs.length; i++) {
+                    if (spbs[i].lastReadingMinutesAgo <= 240 && spbs[i].lastReadingMinutesAgo + minutesSinceLoaded > 240) {
+                        markers[spbs[i].id].icon = [[@{/images/postBoxOrange.gif}]];
+                    }
+                }
+            }, 60000);
         });
 
         var stompClient = null;
@@ -99,10 +117,14 @@
                         markers = {};
                         for(var i = 0; i < spbs.length; i++) {
                             var icon;
-                            if (spbs[i].totalGrams > 0) {
-                                icon = [[@{/images/postBoxRed.gif}]];
+                            if (spbs[i].lastReadingMinutesAgo > 240 || spbs[i].lastReadingMinutesAgo == null) {
+                                icon = [[@{/images/postBoxOrange.gif}]];
                             } else {
-                                icon = [[@{/images/postBoxGreen.gif}]];
+                                if (spbs[i].totalGrams > 0) {
+                                    icon = [[@{/images/postBoxRed.gif}]];
+                                } else {
+                                    icon = [[@{/images/postBoxGreen.gif}]];
+                                }
                             }
                             var marker = new google.maps.Marker({
                                 position: spbs[i].latLong,
@@ -115,10 +137,14 @@
                     } else {
                         for(var i = 0; i < spbs.length; i++) {
                             var icon;
-                            if (spbs[i].totalGrams > 0) {
-                                icon = [[@{/images/postBoxRed.gif}]];
+                            if (spbs[i].lastReadingMinutesAgo > 240 || spbs[i].lastReadingMinutesAgo == null) {
+                                icon = [[@{/images/postBoxOrange.gif}]];
                             } else {
-                                icon = [[@{/images/postBoxGreen.gif}]];
+                                if (spbs[i].totalGrams > 0) {
+                                    icon = [[@{/images/postBoxRed.gif}]];
+                                } else {
+                                    icon = [[@{/images/postBoxGreen.gif}]];
+                                }
                             }
                             markers[spbs[i].id].setIcon(icon);
                             markers[spbs[i].id].setTitle(spbs[i].address + ", " + spbs[i].articleCount + " articles, " + spbs[i].totalGrams + " grams");
@@ -150,6 +176,7 @@
             <table id="spbs" class="table table-condensed table-hover table-striped">
                 <thead>
                 <tr>
+                    <th data-column-id="imei" data-identifier="true" data-searchable="false" data-visible="false">IMEI</th>
                     <th data-column-id="address">Address</th>
                     <th data-column-id="postcode" data-type="numeric" data-align="right" data-header-align="right">Post Code</th>
                     <th data-column-id="lastReadingDateTime" data-width="15%" data-searchable="false">Last Reading Time</th>

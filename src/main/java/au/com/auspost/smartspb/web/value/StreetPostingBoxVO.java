@@ -4,12 +4,14 @@ import au.com.auspost.smartspb.domain.RemoteConfiguration;
 import au.com.auspost.smartspb.domain.StreetPostingBox;
 import au.com.auspost.smartspb.domain.Temperature;
 import org.apache.commons.collections4.CollectionUtils;
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.util.Properties;
 import java.util.TimeZone;
 
 import static au.com.auspost.smartspb.Constants.DATE_FORMAT;
+import static java.lang.Math.toIntExact;
 
 public class StreetPostingBoxVO {
     private Integer id;
@@ -20,6 +22,7 @@ public class StreetPostingBoxVO {
     private Integer postcode;
     private LatLongVO latLong;
     private String lastReadingDateTime;
+    private Integer lastReadingMinutesAgo;
     private Integer grams;
     private Integer totalGrams;
     private Integer articleCount;
@@ -55,6 +58,7 @@ public class StreetPostingBoxVO {
             } else {
                 this.lastReadingDateTime = streetPostingBox.getLatestReading().getDateTime().toDateTime(DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone))).toString(DATE_FORMAT);
             }
+            this.lastReadingMinutesAgo = toIntExact((DateTime.now().getMillis() - streetPostingBox.getLatestReading().getDateTime().getMillis()) / 1000 / 60);
             this.grams = streetPostingBox.getLatestReading().getGrams();
             this.totalGrams = streetPostingBox.getLatestReading().getTotalGrams();
             this.articleCount = streetPostingBox.getLatestReading().getArticleCount();
@@ -96,6 +100,10 @@ public class StreetPostingBoxVO {
 
     public String getLastReadingDateTime() {
         return lastReadingDateTime;
+    }
+
+    public Integer getLastReadingMinutesAgo() {
+        return lastReadingMinutesAgo;
     }
 
     public Integer getGrams() {
