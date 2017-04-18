@@ -67,6 +67,9 @@
             .on("deselected.rs.jquery.bootgrid", function(event, deselectedRows) {
                 markers[deselectedRows[0].id].setAnimation(null);
             });
+
+            $('#spbs-header ul.dropdown-menu a[data-action=-1]').trigger('click');
+
             connect();
             setInterval(function() {
                 var minutesSinceLoaded = (Date.now() - pageLoadedTime) / 1000 / 60;
