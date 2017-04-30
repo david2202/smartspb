@@ -4,6 +4,7 @@ package au.com.auspost.smartspb.web.controller.rest;
 import au.com.auspost.smartspb.dao.StreetPostingBoxCrudRepository;
 import au.com.auspost.smartspb.web.value.StreetPostingBoxVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ public class StreetPostingBoxRestController {
     @Autowired
     private StreetPostingBoxCrudRepository streetPostingBoxCrudRepository;
 
+    @CrossOrigin
     @RequestMapping(value = "/spbs", method = RequestMethod.GET)
     public List<StreetPostingBoxVO> list(@RequestParam(name = "timeZone", required = false) Integer timeZoneOffsetMinutes) {
         final String timeZoneOffset;
