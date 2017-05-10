@@ -31,6 +31,18 @@ databaseChangeLog:
                 name: prev_api_key
                 type: varchar(36)
             - column:
+                name: address
+                type: varchar(40)
+            - column:
+                name: postcode
+                type: number(4)
+            - column:
+                name: latitude
+                type: number(9,6)
+            - column:
+                name: longitude
+                type: number(9,6)
+            - column:
                 name: version
                 type: int
                 constraints:
@@ -44,9 +56,526 @@ databaseChangeLog:
               unique: true
 
     - changeSet:
-        id: 1.0-1-dev
+        id: 1.0-2
         author: howed
-        context: "!(pdev OR ptest OR sdev OR stest OR prod)"
+        comment: Insert SPB data
+        changes:
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035444840
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 152 Bligh St, Warrane
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.856737
+            - column:
+                name: longitude
+                value: 147.381942
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769034498748
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 14 Edgeworth St, Warrane
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.860217
+            - column:
+                name: longitude
+                value: 147.377398
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035436853
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 46 Bligh St, Rosny Park
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.863753
+            - column:
+                name: longitude
+                value: 147.370972
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035436051
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 5 Alma Rd, Bellerive
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.871513
+            - column:
+                name: longitude
+                value: 147.371683
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035438966
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 33 Beach St, Bellerive
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.87561
+            - column:
+                name: longitude
+                value: 147.376218
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035438750
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 65 Wentworth St, Bellerive
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.875822
+            - column:
+                name: longitude
+                value: 147.38797
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035442968
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 36 Hill St, Bellerive
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.873563
+            - column:
+                name: longitude
+                value: 147.382391
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035445631
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 11 Belar St, Howrah
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.875635
+            - column:
+                name: longitude
+                value: 147.393452
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035445110
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 183 Clarence St, Howrah
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.877909
+            - column:
+                name: longitude
+                value: 147.396501
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035436986
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 18 Ninabah St, Howrah
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.87499
+            - column:
+                name: longitude
+                value: 147.398874
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035437489
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: Opposite 93 Tranmere Rd, Howrah
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.896812
+            - column:
+                name: longitude
+                value: 147.411673
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 397652098363543
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 3 Binalong Rd, Mornington
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.862493
+            - column:
+                name: longitude
+                value: 147.380036
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035436515
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 273 Cambridge Rd,  Warrane
+            - column:
+                name: postcode
+                value: 7018
+            - column:
+                name: latitude
+                value: -42.858529
+            - column:
+                name: longitude
+                value: 147.388683
+            - column:
+                name: version
+                value: 1
+
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769034498003
+            - column:
+                name: timezone
+                value: Australia/Melbourne
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 89 Austin Ave, McCrae
+            - column:
+                name: postcode
+                value: 3938
+            - column:
+                name: latitude
+                value: -38.3656534
+            - column:
+                name: longitude
+                value: 144.92174
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035439428
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 80 Collins St, Melbourne
+            - column:
+                name: postcode
+                value: 3000
+            - column:
+                name: latitude
+                value: -37.8136
+            - column:
+                name: longitude
+                value: 144.971
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035442851
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 111 Bourke St, Melbourne
+            - column:
+                name: postcode
+                value: 3000
+            - column:
+                name: latitude
+                value: -37.8127
+            - column:
+                name: longitude
+                value: 144.970000
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 359769035435913
+            - column:
+                name: timezone
+                value: Australia/Hobart
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 60 Collins St, Melbourne
+            - column:
+                name: postcode
+                value: 3000
+            - column:
+                name: latitude
+                value: -37.8138
+            - column:
+                name: longitude
+                value: 144.9720
+            - column:
+                name: version
+                value: 1
+
+    - changeSet:
+        id: 1.0-2-dev
+        author: howed
+        context: "!(infra OR pdev OR ptest OR sdev OR stest OR prod)"
         comment: Insert SPB data for local development
         changes:
         - insert:
@@ -54,7 +583,7 @@ databaseChangeLog:
             columns:
             - column:
                 name: imei
-                value: 359769034498003
+                value: 723724378324782
             - column:
                 name: timezone
                 value: Australia/Perth
@@ -65,11 +594,84 @@ databaseChangeLog:
                 name: prev_api_key
                 value: a73c5740-1cde-40a9-bde7-1d5e44761f77
             - column:
+                name: address
+                value: 82 St Andrews Drive Yanchep
+            - column:
+                name: postcode
+                value: 6035
+            - column:
+                name: latitude
+                value: -31.54041
+            - column:
+                name: longitude
+                value: 115.651
+            - column:
+                name: version
+                value: 1
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 256765334454354
+            - column:
+                name: timezone
+                value: Australia/Perth
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 47 Two Rocks Road Two Rocks
+            - column:
+                name: postcode
+                value: 6037
+            - column:
+                name: latitude
+                value: -31.5036646
+            - column:
+                name: longitude
+                value: 115.5927279
+            - column:
+                name: version
+                value: 1
+
+        - insert:
+            tableName: street_posting_box
+            columns:
+            - column:
+                name: imei
+                value: 854848734774477
+            - column:
+                name: timezone
+                value: Australia/Perth
+            - column:
+                name: api_key
+                value: 16fa2ee7-6614-4f62-bc16-a3c6fa189675
+            - column:
+                name: prev_api_key
+                value: a73c5740-1cde-40a9-bde7-1d5e44761f77
+            - column:
+                name: address
+                value: 8 Enterprise Avenue Two Rocks
+            - column:
+                name: postcode
+                value: 6037
+            - column:
+                name: latitude
+                value: -31.4944587
+            - column:
+                name: longitude
+                value: 115.5834687
+            - column:
                 name: version
                 value: 1
 
     - changeSet:
-        id: 1.0-2
+        id: 1.0-3
         author: howed
         comment: Create reading table
         changes:
@@ -101,10 +703,20 @@ databaseChangeLog:
                 constraints:
                   nullable: false
             - column:
-                name: degreesC
+                name: total_grams
+                type: int
+                constraints:
+                  nullable: false
+            - column:
+                name: article_count
+                type: int
+                constraints:
+                  nullable: false
+            - column:
+                name: degrees_c
                 type: number(4, 1)
             - column:
-                name: latestInd
+                name: latest_ind
                 type: boolean
                 constraints:
                   nullable: false
@@ -113,14 +725,14 @@ databaseChangeLog:
             - column:
                 name: street_posting_box_id
             - column:
-                name: latestInd
+                name: latest_ind
             indexName: idx_reading_01
             tableName: reading
 
     - changeSet:
-        id: 1.0-2-dev
+        id: 1.0-3-dev
         author: howed
-        context: "!(pdev OR ptest OR sdev OR stest OR prod)"
+        context: "!(infra OR pdev OR ptest OR sdev OR stest OR prod)"
         comment: Insert reading data for local development
         changes:
         - insert:
@@ -134,12 +746,18 @@ databaseChangeLog:
                 valueDate: "2016-11-01T07:00:00"
             - column:
                 name: grams
+                value: 10
+            - column:
+                name: total_grams
                 value: 150
             - column:
-                name: degreesc
+                name: article_count
+                value: 1
+            - column:
+                name: degrees_c
                 value: 21.3
             - column:
-                name: latestInd
+                name: latest_ind
                 value: false
         - insert:
             tableName: reading
@@ -152,25 +770,32 @@ databaseChangeLog:
                 valueDate: "2016-11-01T07:01:00"
             - column:
                 name: grams
+                value: 11
+            - column:
+                name: total_grams
                 value: 161
             - column:
-                name: degreesc
+                name: article_count
+                value: 2
+            - column:
+                name: degrees_c
                 value: 21.4
             - column:
-                name: latestInd
+                name: latest_ind
                 value: true
 
     - changeSet:
-        id: 1.0-3
+        id: 1.0-4
         author: howed
         comment: Create remote_config table
         changes:
         - createTable:
-            tableName: remote_config
+            tableName: remote_configuration
             columns:
             - column:
                 name: id
                 type: int
+                autoIncrement: true
                 constraints:
                     primaryKey: true
                     nullable: false
@@ -181,14 +806,23 @@ databaseChangeLog:
                     nullable: false
 
         - createTable:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
-                name: remote_config_id
+                name: id
+                type: int
+                autoIncrement: true
+                constraints:
+                    primaryKey: true
+                    nullable: false
+            - column:
+                name: remote_configuration_id
                 type: int
                 constraints:
                     primaryKey: true
                     nullable: false
+                    foreignKeyName: fk_remote_config_prop_remote_config
+                    references: remote_configuration(id)
             - column:
                 name: name
                 type: varchar(32)
@@ -207,7 +841,7 @@ databaseChangeLog:
                     nullable: true
 
         - insert:
-            tableName: remote_config
+            tableName: remote_configuration
             columns:
             - column:
                 name: id
@@ -216,10 +850,10 @@ databaseChangeLog:
                 name: version
                 value: 1
         - insert:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
-                name: remote_config_id
+                name: remote_configuration_id
                 value: 1
             - column:
                 name: name
@@ -228,10 +862,10 @@ databaseChangeLog:
                 name: description
                 value: The base URL for the remote REST web services.
         - insert:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
-                name: remote_config_id
+                name: remote_configuration_id
                 value: 1
             - column:
                 name: name
@@ -240,10 +874,10 @@ databaseChangeLog:
                 name: description
                 value: The number of seconds between readings of the SPB weight.
         - insert:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
-                name: remote_config_id
+                name: remote_configuration_id
                 value: 1
             - column:
                 name: name
@@ -253,29 +887,29 @@ databaseChangeLog:
                 value: The number of seconds the microcontroller should sleep for.
 
     - changeSet:
-        id: 1.0-3-dev
+        id: 1.0-4-dev
         author: howed
-        comment: Insert remote_config data for local development
-        context: "!(pdev OR ptest OR sdev OR stest OR prod)"
+        comment: Insert remote_configuration data for local development
+        context: "!(infra OR pdev OR ptest OR sdev OR stest OR prod)"
         changes:
         - update:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
                 name: value
                 value: http://localhost:8080/rest/remote
-            where: remote_config_id = 1 AND name='url'
+            where: remote_configuration_id = 1 AND name='url'
         - update:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
                 name: value
                 value: 8
-            where: remote_config_id = 1 AND name='readingSeconds'
+            where: remote_configuration_id = 1 AND name='readingSeconds'
         - update:
-            tableName: remote_config_prop
+            tableName: remote_configuration_property
             columns:
             - column:
                 name: value
                 value: 8
-            where: remote_config_id = 1 AND name='sleepSeconds'
+            where: remote_configuration_id = 1 AND name='sleepSeconds'

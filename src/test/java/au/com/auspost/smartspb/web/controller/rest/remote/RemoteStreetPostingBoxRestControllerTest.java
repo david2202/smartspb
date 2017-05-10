@@ -1,13 +1,10 @@
-package au.com.auspost.smartspb.web.controller.remote;
+package au.com.auspost.smartspb.web.controller.rest.remote;
 
 import au.com.auspost.smartspb.domain.RemoteConfiguration;
+import au.com.auspost.smartspb.domain.RemoteConfigurationProperty;
 import au.com.auspost.smartspb.domain.StreetPostingBox;
-import au.com.auspost.smartspb.domain.Temperature;
-import au.com.auspost.smartspb.service.ReadingService;
 import au.com.auspost.smartspb.service.RemoteConfigurationService;
 import au.com.auspost.smartspb.service.StreetPostingBoxService;
-import au.com.auspost.smartspb.web.value.remote.ReadingVO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,23 +16,16 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(RemoteReadingRestController.class)
-public class RemoteReadingRestControllerTest {
+@WebMvcTest(RemoteStreetPostingBoxRestController.class)
+public class RemoteStreetPostingBoxRestControllerTest {
     @Autowired
     private MockMvc mvc;
-
-    @MockBean
-    private ReadingService readingService;
 
     @MockBean
     private StreetPostingBoxService streetPostingBoxService;
@@ -44,50 +34,42 @@ public class RemoteReadingRestControllerTest {
     private RemoteConfigurationService remoteConfigurationService;
 
     @Test
-    public void testPost() throws Exception {
+    public void testGet() throws Exception {
         StreetPostingBox spb = makeStreetPostingBox();
         RemoteConfiguration remoteConfiguration = makeRemoteConfiguration();
-
-        ReadingVO reading = new ReadingVO();
-        reading.setGrams(15);
-        reading.setDegreesC(Temperature.valueOf("21.5"));
 
         when(streetPostingBoxService.load(spb.getImei())).thenReturn(spb);
         when(remoteConfigurationService.load()).thenReturn(remoteConfiguration);
 
-        mvc.perform(post("/rest/remote/spb/" + spb.getImei() + "/reading")
+        mvc.perform(get("/rest/remote/spb/" + spb.getImei())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .header("apiKey", spb.getApiKey())
-                .content(new ObjectMapper().writeValueAsBytes(reading))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
         )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.*", hasSize(2)))
-                .andExpect(jsonPath("$.configVersion", is(remoteConfiguration.getVersion())))
-                .andExpect(jsonPath("$.spbVersion", is(spb.getVersion())));
+                .andExpect(jsonPath("$.*", hasSize(4)))
+                .andExpect(jsonPath("$.imei", is(spb.getImei())))
+                .andExpect(jsonPath("$.version", is(spb.getVersion())))
+                .andExpect(jsonPath("$.apiKey", is(spb.getApiKey())))
+                .andExpect(jsonPath("$.config.property", is(remoteConfiguration.getPropertiesAsProperties().get("property"))));
     }
 
     @Test
-    public void testPostUnauthorised() throws Exception {
+    public void testGetUnauthorised() throws Exception {
         StreetPostingBox spb = makeStreetPostingBox();
-
-        ReadingVO reading = new ReadingVO();
-        reading.setGrams(15);
-        reading.setDegreesC(Temperature.valueOf("21.5"));
 
         when(streetPostingBoxService.load(spb.getImei())).thenReturn(spb);
 
-        mvc.perform(post("/rest/remote/spb/" + spb.getImei() + "/reading")
+        mvc.perform(get("/rest/remote/spb/" + spb.getImei())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .header("apiKey", "somerandomekey")
-                .content(new ObjectMapper().writeValueAsBytes(reading))
+                .header("apiKey", "somerandomkey")
                 .accept(MediaType.APPLICATION_JSON_UTF8)
         )
                 .andExpect(status().isUnauthorized());
     }
 
-    private StreetPostingBox makeStreetPostingBox() {
+    public StreetPostingBox makeStreetPostingBox() {
         StreetPostingBox spb = new StreetPostingBox();
         spb.setImei("IMEI01234567890");
         spb.setApiKey(UUID.randomUUID().toString());
@@ -97,7 +79,7 @@ public class RemoteReadingRestControllerTest {
 
     private RemoteConfiguration makeRemoteConfiguration() {
         RemoteConfiguration rc = new RemoteConfiguration(13);
-        rc.getProperties().setProperty("property", "value");
+        rc.addProperty(new RemoteConfigurationProperty("property", "value"));
         return rc;
     }
 }

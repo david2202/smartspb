@@ -1,0 +1,136 @@
+
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Street Posting Boxes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min-3.3.7.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.bootgrid.min-1.3.1.css" />
+
+    <script src="scripts/jquery-2.1.4.js"></script>
+    <script src="scripts/bootstrap.min-3.3.7.js"></script>
+    <script src="scripts/jquery.bootgrid.min-1.3.1.js"></script>
+    <script src="scripts/jquery.bootgrid.fa.min-1.3.1.js"></script>
+    <script src="scripts/sockjs-0.3.4.js"></script>
+    <script src="scripts/stomp.js"></script>
+    <script>
+        /*<![CDATA[*/
+        jQuery(document).ready(function ($) {
+            $("#readings").bootgrid({
+                navigation: 3,
+                formatters: {
+                        "dateTime": function(column, row) {
+                            return row.dateTime;
+                        }
+                    }
+            });
+            retrieveSPBs();
+            connect();
+        });
+
+        var stompClient = null;
+
+        function connect() {
+            var socket = new SockJS('/stomp');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/readingsUpdate', function(readings) {
+                    retrieveReadings();
+                });
+            });
+        }
+
+        function disconnect() {
+            if (stompClient != null) {
+                stompClient.disconnect();
+            }
+            setConnected(false);
+            console.log("Disconnected");
+        }
+
+        function retrieveSPBs() {
+            $.get("/rest/api/spbs",
+                function(data) {
+                    $("#spbs")
+                        .bootgrid("clear")
+                        .bootgrid("append", data);
+                });
+        }
+
+        function initMap() {
+            var myLatLng = {lat: -31.54041, lng: 115.649196};
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: myLatLng
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Street Posting Boxes'
+            });
+        }
+
+        /*]]>*/
+    </script>
+    <style>
+        #map {
+            height: 600px;
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="container-fluid" id="navfluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="">Smart SPB</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navigationbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/readings">Readings</a></li>
+                <li><a href="/spbs">SPBs</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<h1>Street Posting Boxes</h1>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="map" class="col-xs-4">
+            <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARB7odEMxJYFxgOx5-eBjmx0iF6CZ8zdk&amp;callback=initMap"></script>
+        </div>
+        <div id="list" class="col-xs-8">
+            <table id="spbs" class="table table-condensed table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th data-column-id="address">Address</th>
+                        <th data-column-id="postcode" data-type="numeric" data-align="right" data-header-align="right">Post Code</th>
+                        <th data-column-id="grams" data-type="numeric" data-align="right" data-header-align="right">Grams</th>
+                        <th data-column-id="totalGrams" data-type="numeric" data-align="right" data-header-align="right">Total Grams</th>
+                        <th data-column-id="degreesC" data-type="numeric" data-align="right" data-header-align="right">Temperature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

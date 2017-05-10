@@ -1,6 +1,6 @@
-package au.com.auspost.smartspb.web.controller;
+package au.com.auspost.smartspb.web.controller.rest;
 
-import au.com.auspost.smartspb.dao.ReadingDao;
+import au.com.auspost.smartspb.dao.ReadingCrudRepository;
 import au.com.auspost.smartspb.domain.Reading;
 import au.com.auspost.smartspb.web.value.ReadingVO;
 import org.joda.time.DateTime;
@@ -20,14 +20,21 @@ import java.util.List;
 public class ReadingRestController {
 
     @Autowired
-    private ReadingDao readingDao;
+    private ReadingCrudRepository readingCrudRepository;
 
     @RequestMapping(value = "/readings", method = RequestMethod.GET)
     public List<ReadingVO> list(
-            @RequestParam(name ="dateTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date dateTime) {
+            @RequestParam(name ="dateTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date dateTime,
+            @RequestParam(name = "timeZone", required = false) Integer timeZoneOffsetMinutes) {
+        String timeZoneOffset = null;
+        if (timeZoneOffsetMinutes != null) {
+            Integer timeZoneHours = timeZoneOffsetMinutes / 60;
+            Integer timeZoneMinutes = timeZoneOffsetMinutes % 60;
+            timeZoneOffset = String.format("GMT%+02d:%02d", timeZoneHours, timeZoneMinutes);
+        }
         List<ReadingVO> readings = new ArrayList<>();
-        for (Reading r:readingDao.list(new DateTime(dateTime))) {
-            readings.add(new ReadingVO(r));
+        for (Reading r:readingCrudRepository.findByDateTimeGreaterThanOrderByDateTimeDesc(new DateTime(dateTime))) {
+            readings.add(new ReadingVO(r, timeZoneOffset));
         }
         return readings;
     }

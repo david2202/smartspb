@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout"
+      th:with="currentPage='spbs'">
+<head>
+    <script th:src="@{/scripts/sockjs-0.3.4.js}" src="../static/scripts/sockjs-0.3.4.js"></script>
+    <script th:src="@{/scripts/stomp.js}" src="../static/scripts/stomp.js"></script>
+
+    <title>Street Posting Boxes</title>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var map;
+        var spbs;
+        var markers;
+
+        jQuery(document).ready(function ($) {
+            if ($( window ).width() < 768) {
+                $("#spbs th[data-column-id='postcode']").attr("data-visible", "false");
+                $("#spbs th[data-column-id='grams']").attr("data-visible", "false");
+                $("#spbs th[data-column-id='totalGrams']").attr("data-visible", "false");
+                $("#spbs th[data-column-id='degreesC']").attr("data-visible", "false");
+
+                $("#map").css("height", ($( window ).height() - $("#nav").height() + 20) + "px");
+            }
+            $("#spbs").bootgrid({
+                navigation: 3,
+                formatters: {
+                        "grams": function(column, row) {
+                            if (row.grams == null) {
+                                return '';
+                            } else {
+                                return row.grams;
+                            }
+                        },
+                        "totalGrams": function(column, row) {
+                            if (row.totalGrams == null) {
+                                return '';
+                            } else {
+                                return row.totalGrams;
+                            }
+                        },
+                        "articleCount": function(column, row) {
+                            if (row.articleCount == null) {
+                                return '';
+                            } else {
+                                return row.articleCount;
+                            }
+                        },
+                        "degreesC": function(column, row) {
+                            if (row.degreesC == null) {
+                                return '';
+                            } else {
+                                return row.degreesC;
+                            }
+                        },
+                    }
+            });
+            connect();
+            console.log($("#map").width());
+        });
+
+        var stompClient = null;
+
+        function connect() {
+            var socket = new SockJS([[@{/stomp}]]);
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/readingsUpdate', function(readings) {
+                    retrieveSPBs();
+                });
+            });
+        }
+
+        function disconnect() {
+            if (stompClient != null) {
+                stompClient.disconnect();
+            }
+            setConnected(false);
+            console.log("Disconnected");
+        }
+
+        function retrieveSPBs() {
+            $.get("/rest/api/spbs",
+                { timeZone: new Date().getTimezoneOffset() * -1 },
+                function(data) {
+                    spbs = data;
+                    $("#spbs")
+                        .bootgrid("clear")
+                        .bootgrid("append", spbs);
+                    if (typeof map == 'undefined') {
+                        map = new google.maps.Map(document.getElementById('map'), {
+                            zoom: 14,
+                            center: spbs[0].latLong
+                        });
+                    }
+                    if (typeof markers == 'undefined') {
+                        markers = {};
+                        for(var i = 0; i < spbs.length; i++) {
+                            var icon;
+                            if (spbs[i].totalGrams > 0) {
+                                icon = [[@{/images/postBoxRed.gif}]];
+                            } else {
+                                icon = [[@{/images/postBoxGreen.gif}]];
+                            }
+                            var marker = new google.maps.Marker({
+                                position: spbs[i].latLong,
+                                map: map,
+                                icon: icon,
+                                title: spbs[i].address + ", " + spbs[i].articleCount + " articles, " + spbs[i].totalGrams + " grams"
+                            });
+                            markers[spbs[i].id] = marker;
+                        }
+                    } else {
+                        for(var i = 0; i < spbs.length; i++) {
+                            var icon;
+                            if (spbs[i].totalGrams > 0) {
+                                icon = [[@{/images/postBoxRed.gif}]];
+                            } else {
+                                icon = [[@{/images/postBoxGreen.gif}]];
+                            }
+                            markers[spbs[i].id].setIcon(icon);
+                            markers[spbs[i].id].setTitle(spbs[i].address + ", " + spbs[i].articleCount + " articles, " + spbs[i].totalGrams + " grams");
+                        }
+                    }
+                });
+        }
+        /*]]>*/
+    </script>
+    <style>
+        #map {
+            height: 600px;
+        }
+        #map img {
+           max-width: none;
+        }
+    </style>
+</head>
+<!-- API Key AIzaSyARB7odEMxJYFxgOx5-eBjmx0iF6CZ8zdk -->
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div id="mapContainer" class="col-md-3">
+            <div id="map">
+                <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARB7odEMxJYFxgOx5-eBjmx0iF6CZ8zdk&amp;callback=retrieveSPBs"></script>
+            </div>
+        </div>
+        <div id="list" class="col-md-9">
+            <table id="spbs" class="table table-condensed table-hover table-striped">
+                <thead>
+                <tr>
+                    <th data-column-id="address">Address</th>
+                    <th data-column-id="postcode" data-type="numeric" data-align="right" data-header-align="right">Post Code</th>
+                    <th data-column-id="lastReadingDateTime" data-width="15%" data-searchable="false">Last Reading Time</th>
+                    <th data-column-id="grams" data-type="numeric" data-formatter="grams" data-align="right" data-header-align="right" data-width="10%" data-searchable="false">Grams</th>
+                    <th data-column-id="totalGrams" data-type="numeric" data-formatter="totalGrams" data-align="right" data-header-align="right" data-width="10%" data-searchable="false">Total Grams</th>
+                    <th data-column-id="articleCount" data-type="numeric" data-formatter="articleCount" data-align="right" data-header-align="right" data-width="10%" data-searchable="false">Articles</th>
+                    <th data-column-id="degreesC" data-type="numeric" data-formatter="degreesC" data-align="right" data-header-align="right" data-width="10%" data-searchable="false">Temperature</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
