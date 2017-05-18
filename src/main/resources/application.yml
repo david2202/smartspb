@@ -28,6 +28,10 @@ spring:
           enabled: true
     thymeleaf:
         cache: false
+
+liquibase:
+    contexts: dev
+
 ---
 spring:
     profiles: infra
@@ -35,8 +39,30 @@ spring:
 ---
 spring:
     profiles: pdev
+
+liquibase:
+    contexts: pdev
+
+---
+spring:
+    profiles: ptest
     datasource:
-      url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}?autoReconnect=true&amp;serverTimezone=UTC
-      username: ${RDS_USERNAME}
-      password: ${RDS_PASSWORD}
-      driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:postgresql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
+        username: ${RDS_USERNAME}
+        password: ${RDS_PASSWORD}
+        driver-class-name: org.postgresql.Driver
+
+liquibase:
+    contexts: ptest
+
+---
+spring:
+    profiles: stest
+    datasource:
+        url: jdbc:postgresql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
+        username: ${RDS_USERNAME}
+        password: ${RDS_PASSWORD}
+        driver-class-name: org.postgresql.Driver
+
+liquibase:
+    contexts: stest

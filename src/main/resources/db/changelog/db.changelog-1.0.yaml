@@ -9,42 +9,42 @@ databaseChangeLog:
             columns:
             - column:
                 name: id
-                type: int
+                type: java.sql.Types.INTEGER
                 autoIncrement: true
                 constraints:
                   primaryKey: true
                   nullable: false
             - column:
                 name: imei
-                type: varchar(15)
+                type: java.sql.Types.VARCHAR(15)
                 constraints:
                   nullable: false
             - column:
                 name: timezone
-                type: varchar(30)
+                type: java.sql.Types.VARCHAR(30)
                 constraints:
                   nullable: false
             - column:
                 name: api_key
-                type: varchar(36)
+                type: java.sql.Types.VARCHAR(36)
             - column:
                 name: prev_api_key
-                type: varchar(36)
+                type: java.sql.Types.VARCHAR(36)
             - column:
                 name: address
-                type: varchar(40)
+                type: java.sql.Types.VARCHAR(40)
             - column:
                 name: postcode
-                type: number(4)
+                type: java.sql.Types.NUMERIC(4)
             - column:
                 name: latitude
-                type: number(9,6)
+                type: java.sql.Types.NUMERIC(9,6)
             - column:
                 name: longitude
-                type: number(9,6)
+                type: java.sql.Types.NUMERIC(9,6)
             - column:
                 name: version
-                type: int
+                type: java.sql.Types.INTEGER
                 constraints:
                   nullable: false
         - createIndex:
@@ -680,44 +680,44 @@ databaseChangeLog:
             columns:
             - column:
                 name: id
-                type: int
+                type: java.sql.Types.INTEGER
                 autoIncrement: true
                 constraints:
                   primaryKey: true
                   nullable: false
             - column:
                 name: street_posting_box_id
-                type: int
+                type: java.sql.Types.INTEGER
                 constraints:
                   nullable: false
                   foreignKeyName: fk_reading_spb
                   references: street_posting_box(id)
             - column:
                 name: date_time
-                type: datetime
+                type: java.sql.Types.TIMESTAMP
                 constraints:
                   nullable: false
             - column:
                 name: grams
-                type: int
+                type: java.sql.Types.INTEGER
                 constraints:
                   nullable: false
             - column:
                 name: total_grams
-                type: int
+                type: java.sql.Types.INTEGER
                 constraints:
                   nullable: false
             - column:
                 name: article_count
-                type: int
+                type: java.sql.Types.INTEGER
                 constraints:
                   nullable: false
             - column:
                 name: degrees_c
-                type: number(4, 1)
+                type: java.sql.Types.NUMERIC(4, 1)
             - column:
                 name: latest_ind
-                type: boolean
+                type: java.sql.Types.BOOLEAN
                 constraints:
                   nullable: false
         - createIndex:
@@ -794,14 +794,14 @@ databaseChangeLog:
             columns:
             - column:
                 name: id
-                type: int
+                type: java.sql.Types.INTEGER
                 autoIncrement: true
                 constraints:
                     primaryKey: true
                     nullable: false
             - column:
                 name: version
-                type: int
+                type: java.sql.Types.INTEGER
                 constraints:
                     nullable: false
 
@@ -810,14 +810,14 @@ databaseChangeLog:
             columns:
             - column:
                 name: id
-                type: int
+                type: java.sql.Types.INTEGER
                 autoIncrement: true
                 constraints:
                     primaryKey: true
                     nullable: false
             - column:
                 name: remote_configuration_id
-                type: int
+                type: java.sql.Types.INTEGER
                 constraints:
                     primaryKey: true
                     nullable: false
@@ -825,18 +825,18 @@ databaseChangeLog:
                     references: remote_configuration(id)
             - column:
                 name: name
-                type: varchar(32)
+                type: java.sql.Types.VARCHAR(32)
                 constraints:
                     primaryKey: true
                     nullable: false
             - column:
                 name: value
-                type: varchar(256)
+                type: java.sql.Types.VARCHAR(256)
                 constraints:
                     nullable: true
             - column:
                 name: description
-                type: varchar(256)
+                type: java.sql.Types.VARCHAR(256)
                 constraints:
                     nullable: true
 
