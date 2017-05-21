@@ -23,7 +23,7 @@ import java.util.UUID;
 @Entity
 public class StreetPostingBox {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String imei;
     private TimeZone timezone;

@@ -19,7 +19,7 @@ import java.util.Properties;
 public class RemoteConfiguration {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
